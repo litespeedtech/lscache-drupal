@@ -1,0 +1,27 @@
+lite_speed_cache.settings:
+  type: config_object
+  label: 'LiteSpeed Cache settings'
+  mapping:
+    loremipsum:
+      type: mapping
+      mapping:
+        page_title:
+          esi_on: text
+          label: 'Turn ESI On or Off.'
+        max_age:
+          type: text
+          label: 'Define max age for public page cache.'
+        max_age_private:
+          type: text
+          lable: 'Define max age for private page cache.'
+        cache_status:
+          type: text
+          label: 'Cache is On or Off'
+        debug:
+          type: text
+          label: 'Weather or not to send debug headers!'
+block.settings.lite_speed_cache_block:
+  type: block_settings
+  label: 'LSCache block'
+  mapping:
+    lite_speed_cache_block_settings:

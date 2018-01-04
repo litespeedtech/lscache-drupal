@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_page_alter().
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+
+/**
+ * Implements hook_help().
+ */
+function lite_speed_cache_help($route_name, RouteMatchInterface $route_match) {
+    switch ($route_name) {
+        case 'help.page.lite_speed_cache':
+            $output = '<h3>' . t('About') . '</h3>';
+            $output .= '<dt>' . t('LSCache is used to cache your website on server end, it works similar to reverse proxy but its much more faster as there is no need to use a middleware proxy when everthing is being done by LiteSpeed Web Server. ') . '</dt>';
+
+            $output .= '<h3>' . t('Uses') . '</h3>';
+            $output .= '<dl>';
+            $output .= '<dt>' . t('Speeding up your site') . '</dt>';
+            $output .= '<dd>' . t('Pages which are suitable for caching are cached the first time they are requested, then the cached version is served for all later requests. Dynamic content is handled automatically so that both cache correctness and hit ratio is maintained.') . '</dd>';
+            $output .= '<dd>' . t('The module requires no configuration. Every part of the page contains metadata that allows Internal Dynamic Page Cache to figure this out on its own.') . '</dd>';
+            $output .= '</dl>';
+
+            return $output;
+    }
+}
+
+
+/**
+ * Implements hook_user_login($account).
+ */
+
+
+function lite_speed_cache_user_login($account) {
+    $reqTemp = \Drupal::request();
+}

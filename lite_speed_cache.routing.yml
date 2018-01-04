@@ -1,0 +1,15 @@
+lite_speed_cache.content:
+  path: '/lscache'
+  defaults:
+    _controller: '\Drupal\lite_speed_cache\Controller\LSCacheController::content'
+    _title: 'Hello, LSCache!'
+  requirements:
+    _permission: 'access content'
+
+lite_speed_cache.form:
+  path: '/admin/config/development/lscache'
+  defaults:
+    _form: 'Drupal\lite_speed_cache\Form\LSCacheForm'
+    _title: 'LSCache Settings'
+  requirements:
+    _permission: 'administer site configuration'

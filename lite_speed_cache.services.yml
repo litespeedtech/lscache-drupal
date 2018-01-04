@@ -1,0 +1,45 @@
+services:
+  lite_speed_cache_subscriber:
+    class: Drupal\lite_speed_cache\EventSubscriber\LiteSpeedCacheSubscriber
+    arguments: ['@dynamic_page_cache_request_policy', '@dynamic_page_cache_response_policy', '@render_cache', '%renderer.config%']
+    tags:
+      - { name: event_subscriber }
+
+  http_middleware.lite_speed_cache:
+      class: Drupal\lite_speed_cache\StackMiddleware\LiteSpeedCache
+      arguments: ['@cache.page', '@page_cache_request_policy', '@page_cache_response_policy']
+      tags:
+        - { name: http_middleware, priority: 199, responder: true }
+
+  cache.page:
+      class: Drupal\Core\Cache\CacheBackendInterface
+      tags:
+        - { name: cache.bin }
+      factory: cache_factory:get
+      arguments: [page]
+
+  cache_tags.invalidator.lite_speed_cache:
+      class: Drupal\lite_speed_cache\Cache\LSCacheTagsInvalidator
+      tags:
+        - { name: cache_tags_invalidator}
+
+
+  # Request & response policies.
+
+  dynamic_page_cache_request_policy:
+      class: Drupal\dynamic_page_cache\PageCache\RequestPolicy\DefaultRequestPolicy
+      tags:
+        - { name: service_collector, tag: dynamic_page_cache_request_policy, call: addPolicy}
+  dynamic_page_cache_response_policy:
+        class: Drupal\Core\PageCache\ChainResponsePolicy
+        tags:
+          - { name: service_collector, tag: dynamic_page_cache_response_policy, call: addPolicy}
+        lazy: true
+  dynamic_page_cache_deny_admin_routes:
+        class: Drupal\dynamic_page_cache\PageCache\ResponsePolicy\DenyAdminRoutes
+        arguments: ['@current_route_match']
+        public: false
+        tags:
+          - { name: dynamic_page_cache_response_policy }
+
+

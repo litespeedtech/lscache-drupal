@@ -1,0 +1,6 @@
+lite_speed_cache.admin:
+  title: 'LSCache Settings'
+  description: 'Purge all cache or purge by tags!'
+  route_name: lite_speed_cache.form
+  parent: 'system.admin_config_development'
+  weight: 100
