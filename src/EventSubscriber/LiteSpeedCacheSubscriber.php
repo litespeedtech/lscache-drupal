@@ -38,7 +38,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
     /**
      * Name of LiteSpeed Dynamic Page Cache's Status header.
      */
-    const DYNAMICSTATUSHEADER = 'X-LiteSpeed-DYNAMIC-STATUS';
+    const DYNAMICSTATUSHEADER = 'X-LiteSpeed-Dynamic-Status';
 
     /**
      * A request policy rule determining the cacheability of a response.
@@ -135,14 +135,6 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
         if ($request_policy_result === RequestPolicyInterface::DENY) {
             return;
         }
-
-        // Sets the response for the current route, if cached.
-        //$cached = $this->renderCache->get($this->dynamicPageCacheRedirectRenderArray);
-        //if ($cached) {
-        //    $response = $this->renderArrayToResponse($cached);
-        //    $response->headers->set(self::HEADER, 'HIT');
-        //    $event->setResponse($response);
-        //}
     }
 
     /**
@@ -191,7 +183,6 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
         // with plain Response objects. (Dynamic Page Cache needs to be able to
         // access and modify the cacheability metadata associated with the
         // response.)
-        //$response->headers->set(self::HEADER, 'Hello');
 
         if (!$response instanceof CacheableResponseInterface) {
             return;
@@ -257,28 +248,27 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                 $cookie = new Cookie('_lscache_vary', 'loggedin');
                 $response->headers->setCookie($cookie);
 
-
                 $cookie = new Cookie('lsc_private', $request->cookies->get(session_name()));
                 $response->headers->setCookie($cookie);
             }
 
-                // There's no work left to be done if this is an uncacheable response.
-                if (!$this->shouldCacheResponse($response)) {
-                    // The response is uncacheable, mark it as such.
-                    $response->headers->set(self::DYNAMICSTATUSHEADER, 'UNCACHEABLE');
+            // There's no work left to be done if this is an uncacheable response.
+            if (!$this->shouldCacheResponse($response)) {
+                // The response is uncacheable, mark it as such.
+                $response->headers->set(self::DYNAMICSTATUSHEADER, 'UNCACHEABLE');
+                return;
+            }
+
+
+            $request = $event->getRequest();
+            if (!isset($this->requestPolicyResults[$request])) {
+                return;
+            }
+
+
+            if ($this->requestPolicyResults[$request] === RequestPolicyInterface::DENY || $this->responsePolicy->check($response, $request) === ResponsePolicyInterface::DENY) {
                     return;
-                }
-
-
-                $request = $event->getRequest();
-                if (!isset($this->requestPolicyResults[$request])) {
-                    return;
-                }
-
-
-                if ($this->requestPolicyResults[$request] === RequestPolicyInterface::DENY || $this->responsePolicy->check($response, $request) === ResponsePolicyInterface::DENY) {
-                    return;
-                }
+            }
 
 
             if($cacheStatus=='0' or $cacheStatus == 'On')  {
@@ -305,18 +295,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
 
 
     /**
-     * Whether the given response should be cached by Dynamic Page Cache.
-     *
-     * We consider any response that has cacheability metadata meeting the auto-
-     * placeholdering conditions to be uncacheable. Because those conditions
-     * indicate poor cacheability, and if it doesn't make sense to cache parts of
-     * a page, then neither does it make sense to cache an entire page.
-     *
-     * But note that auto-placeholdering avoids such cacheability metadata ever
-     * bubbling to the response level: while rendering, the Renderer checks every
-     * subtree to see if meets the auto-placeholdering conditions. If it does, it
-     * is automatically placeholdered, and consequently the cacheability metadata
-     * of the placeholdered content does not bubble up to the response level.
+     * Whether the given response should be cached by LiteSpeed Page Cache.
      *
      * @param \Drupal\Core\Cache\CacheableResponseInterface $response
      *   The response whose cacheability to analyze.
@@ -347,25 +326,6 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
         }
 
         return TRUE;
-    }
-
-
-
-    /**
-     * Stores a response in case of a Dynamic Page Cache miss, if cacheable.
-     *
-     * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
-     *   The event to process.
-     */
-    public function onKernelResponse(FilterResponseEvent $event) {
-        $response = $event->getResponse();
-
-        // Dynamic Page Cache only works with cacheable responses. It does not work
-        // with plain Response objects. (Dynamic Page Cache needs to be able to
-        // access and modify the cacheability metadata associated with the
-        // response.)
-        //$response->headers->set(self::HEADER, 'Hello');
-        //$response->headers->set(self::HEADER, 'Usman Nasir');
     }
 
 

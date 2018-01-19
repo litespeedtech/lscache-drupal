@@ -21,7 +21,7 @@ class LSCacheController extends ControllerBase {
     public function content() {
         return array(
             '#type' => 'markup',
-            '#markup' => $this->t('Hello, LSCache!'),
+            '#markup' => $this->t('Hello, LiteSpeedCache!'),
         );
     }
 

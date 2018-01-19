@@ -1,2 +1,4 @@
-# lscache-drupal
-LSCache Plugin for Drupal 8
+LiteSpeed Cache
+===========
+
+LSCache Module for Drupal 8.

@@ -23,8 +23,8 @@ function lite_speed_cache_help($route_name, RouteMatchInterface $route_match) {
             $output .= '<h3>' . t('Uses') . '</h3>';
             $output .= '<dl>';
             $output .= '<dt>' . t('Speeding up your site') . '</dt>';
-            $output .= '<dd>' . t('Pages which are suitable for caching are cached the first time they are requested, then the cached version is served for all later requests. Dynamic content is handled automatically so that both cache correctness and hit ratio is maintained.') . '</dd>';
-            $output .= '<dd>' . t('The module requires no configuration. Every part of the page contains metadata that allows Internal Dynamic Page Cache to figure this out on its own.') . '</dd>';
+            $output .= '<dd>' . t('LiteSpeed Cache plugin for Drupal 8 uses same mechanism as their built in plugins to determine if page is cacheable or not. If page is cacheable it is requested from backend and served from LiteSpeed Cache the next time!   ') . '</dd>';
+            $output .= '<dd>' . t('Caching can be disabled and enabled from configurations page, you do not need to worry about invalidation since our plugin use tags based invalidation.') . '</dd>';
             $output .= '</dl>';
 
             return $output;
