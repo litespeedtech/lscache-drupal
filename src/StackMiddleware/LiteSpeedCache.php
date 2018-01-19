@@ -132,7 +132,7 @@ class LiteSpeedCache implements HttpKernelInterface {
     }
 
     /**
-     * Retrieves a response from the cache or fetches it from the backend.
+     * Fetch request from backend and set cache headers
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *   A request object.
@@ -165,10 +165,6 @@ class LiteSpeedCache implements HttpKernelInterface {
             in_array('Cookie', $response->getVary()) &&
             !$response->headers->hasCacheControlDirective('no-cache')) {
             $response->setPrivate();
-
-            //$cookie = new Cookie('_lscache_vary','loggedin');
-            //$response->headers->setCookie($cookie);
-
         }
 
         // Perform HTTP revalidation.
