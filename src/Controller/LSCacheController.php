@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: usman
+ * @author     	LiteSpeed Technologies <info@litespeedtech.com>
  * Date: 1/1/18
  * Time: 12:30 AM
  */
