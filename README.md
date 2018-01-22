@@ -44,3 +44,38 @@ http://example.com/drupal/admin/modules
 * Click Install.
 
 
+Configurations
+-------------
+
+This step is optional, once the plugin is activated your cache is already up and running, but on configuration screen, you can customize few settings.
+
+Go to → http://example.com/drupal/admin/config/development/lscache
+
+![LiteSpeed Cache Drupal Plugin Configurations](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:enable_lscache_drupal.png)
+
+**Clear Cache**
+
+* Clear this site
+
+This option only clears the current Drupal installation, this helps if you have multiple Drupal installations on a same virtual host.
+
+* Clear all
+
+This can help you clear complete cache for this virtual host.
+
+**Debug**
+
+If turned on LiteSpeed cache plugin will emit extra headers for testing while developing or deploying.
+
+**ESI**
+
+Turn this off when you are on OpenLiteSpeed, but even if it is turned on it will not create any issues.
+
+**Max Age**
+
+Amount of time LiteSpeed web server will save pages in the public cache.
+
+**Max Age Private**
+
+Amount of time LiteSpeed web server will save pages in the private cache.
+
