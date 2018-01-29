@@ -51,9 +51,9 @@ This step is optional. Once the plugin is activated, your cache is already up an
 
 Go to
 
-    http://example.com/drupal/admin/config/development/lscache
+    http://example.com/admin/config/development/lscache
 
-![LiteSpeed Cache Drupal Plugin Configurations](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:enable_lscache_drupal.png)
+![LiteSpeed Cache Drupal Plugin Configurations](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:lscache-drupal.png?cache=)
 
 **Clear Cache**
 
