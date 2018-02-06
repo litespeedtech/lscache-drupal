@@ -39,17 +39,21 @@ class LSCacheTagsInvalidator implements CacheTagsInvalidatorInterface {
 
         // check if its purge all tag
 
+        $finalTags = [];
+
+        $commonTag = substr(md5(DRUPAL_ROOT),0,5);
+
         foreach ($tags as $val) {
             if (strpos($val, 'config') !== false) {
                 LSCacheTagsInvalidator::$purgeAllByTags = 1;
                 return;
             }
             else{
-                array_push($finalTags,$val);
+                array_push($finalTags,$commonTag . '_' .$val);
             }
         }
 
-        LSCacheTagsInvalidator::$tags = $tags;
+        LSCacheTagsInvalidator::$tags = $finalTags;
         LSCacheTagsInvalidator::$cacheCheck = 1;
     }
 

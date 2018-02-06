@@ -84,12 +84,13 @@ class LiteSpeedCache implements HttpKernelInterface {
 
     private function filterTags($tags){
         $finalTags = [];
+        $commonTag = substr(md5(DRUPAL_ROOT),0,5);
         foreach ($tags as $val) {
             if (strpos($val, 'config') !== false) {
                 continue;
             }
             else{
-                array_push($finalTags,$val);
+                array_push($finalTags,$commonTag . '_' .$val);
             }
         }
         return $finalTags;
@@ -227,12 +228,12 @@ class LiteSpeedCache implements HttpKernelInterface {
         // This plugin config object
 
         $config = \Drupal::config('lite_speed_cache.settings');
-        $mainConfig = \Drupal::config('system.site');
+
 
         // Drupal site config object
 
         $maxAage = $config->get('lite_speed_cache.max_age');
-        $siteName = $mainConfig->get('name');
+        $commonTag = substr(md5(DRUPAL_ROOT),0,5);
 
 
         // this determines if response is storeable
@@ -242,8 +243,8 @@ class LiteSpeedCache implements HttpKernelInterface {
                 $response->headers->set(LiteSpeedCache::LSCACHE, 'public, max-age=' . $maxAage);
                 $tags = $response->getCacheableMetadata()->getCacheTags();
                 $tags = $this->filterTags($tags);
-                array_push($tags,$siteName);
-                $tags = implode(', ', $tags);
+                array_push($tags,$commonTag);
+                $tags = implode(',', $tags);
                 $response->headers->set('X-LiteSpeed-Tag', $tags);
             }
         }
