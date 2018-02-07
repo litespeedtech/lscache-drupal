@@ -144,12 +144,13 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
 
     private function filterTags($tags){
         $finalTags = [];
+        $commonTag = substr(md5(DRUPAL_ROOT),0,5);
         foreach ($tags as $val) {
             if (strpos($val, 'config') !== false) {
                 continue;
             }
             else{
-                array_push($finalTags,$val);
+                array_push($finalTags,$commonTag . '_' .$val);
             }
         }
         return $finalTags;
@@ -175,9 +176,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
 
         // Drupal site config object
 
-        $mainConfig = \Drupal::config('system.site');
-
-        $siteName = $mainConfig->get('name');
+        $commonTag = substr(md5(DRUPAL_ROOT),0,5);
 
         // Dynamic Page Cache only works with cacheable responses. It does not work
         // with plain Response objects. (Dynamic Page Cache needs to be able to
@@ -194,7 +193,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'LS Cache Purged!');
             }
-            $response->headers->set(LiteSpeedCacheSubscriber::PURGEHEADER, $siteName);
+            $response->headers->set(LiteSpeedCacheSubscriber::PURGEHEADER, $commonTag);
         } else {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'No Purge!');
@@ -234,7 +233,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'LS Cache Purged!');
             }
-            $response->headers->set(LiteSpeedCacheSubscriber::PURGEHEADER, $siteName);
+            $response->headers->set(LiteSpeedCacheSubscriber::PURGEHEADER, $commonTag);
         } else {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'No Purge');
@@ -275,8 +274,8 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                 $response->headers->set('X-LiteSpeed-Cache-Control', 'private, max-age='.$maxAgePrivate);
                 $tags = $response->getCacheableMetadata()->getCacheTags();
                 $tags = $this->filterTags($tags);
-                array_push($tags,$siteName);
-                $tags = implode(', ', $tags);
+                array_push($tags,$commonTag);
+                $tags = implode(',', $tags);
                 $response->headers->set('X-LiteSpeed-Tag', $tags);
             }
 
