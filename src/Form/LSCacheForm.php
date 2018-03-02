@@ -101,6 +101,8 @@ class LSCacheForm extends ConfigFormBase
 
         $options = ['On','Off'];
 
+        /*
+
         $form['cache_settings']['esi_on'] = array(
             '#type' => 'select',
             '#title' => $this->t('ESI'),
@@ -109,14 +111,18 @@ class LSCacheForm extends ConfigFormBase
             '#description' => $this->t('Turn ESI On or Off for Hole Punching! Keep it disabled if you are on OpenLiteSpeed.'),
         );
 
+        */
+
 
         // max_age field.
         $form['cache_settings']['max_age'] = array(
             '#type' => 'textfield',
-            '#title' => $this->t('Max age'),
+            '#title' => $this->t('Public Cache TTL'),
             '#default_value' => $config->get('lite_speed_cache.max_age'),
-            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver public cache.'),
+            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver public cache (Seconds).'),
         );
+
+        /*
 
         // max_age field.
         $form['cache_settings']['max_age_private'] = array(
@@ -125,6 +131,8 @@ class LSCacheForm extends ConfigFormBase
             '#default_value' => $config->get('lite_speed_cache.max_age_private'),
             '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver private cache.'),
         );
+
+        */
 
         return $form;
     }
@@ -142,9 +150,9 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
         $config = $this->config('lite_speed_cache.settings');
-        $config->set('lite_speed_cache.esi_on', $form_state->getValue('esi_on'));
+        //$config->set('lite_speed_cache.esi_on', $form_state->getValue('esi_on'));
         $config->set('lite_speed_cache.max_age', $form_state->getValue('max_age'));
-        $config->set('lite_speed_cache.max_age_private', $form_state->getValue('max_age_private'));
+        //$config->set('lite_speed_cache.max_age_private', $form_state->getValue('max_age_private'));
         $config->set('lite_speed_cache.cache_status', $form_state->getValue('cache_status'));
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
         $config->save();
