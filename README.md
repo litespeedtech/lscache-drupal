@@ -69,10 +69,6 @@ This button clears the entire LiteSpeed cache for this virtual host. This includ
 
 If turned on, LiteSpeed Cache will emit extra headers for testing while developing or deploying.
 
-**ESI**
-
-OpenLiteSpeed doesn't support ESI, although it does no harm to keep it turned on.
-
 **Public Cache TTL**
 
 Amount of time LiteSpeed web server will save pages in the public cache.
