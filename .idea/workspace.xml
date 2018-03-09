@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af22bbe6-1797-47b4-a6f8-cb1cb609ae46" name="Default" comment="" />
+    <list default="true" id="af22bbe6-1797-47b4-a6f8-cb1cb609ae46" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,9 +16,12 @@
       <file leaf-file-name="LiteSpeedCache.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/StackMiddleware/LiteSpeedCache.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4140">
-              <caret line="246" column="66" lean-forward="false" selection-start-line="246" selection-start-column="66" selection-end-line="246" selection-end-column="66" />
-              <folding />
+            <state relative-caret-position="4158">
+              <caret line="247" column="66" lean-forward="false" selection-start-line="247" selection-start-column="66" selection-end-line="247" selection-end-column="66" />
+              <folding>
+                <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+                <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -24,8 +29,8 @@
       <file leaf-file-name="LiteSpeedCacheSubscriber.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/EventSubscriber/LiteSpeedCacheSubscriber.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="51" column="6" lean-forward="true" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+            <state relative-caret-position="18">
+              <caret line="51" column="6" lean-forward="false" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -35,6 +40,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/EventSubscriber/LiteSpeedCacheSubscriber.php" />
+      </list>
+    </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -64,7 +76,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -94,10 +105,11 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/ls/usr/local/lsws/DEFAULT/html/drupal" />
+    <property name="last_opened_file_path" value="$USER_HOME$/ls/usr/local/lsws/DEFAULT/html/drupal/modules/lscache-drupal-master" />
     <property name="WebServerToolWindowFactoryState" value="true" />
   </component>
   <component name="RunDashboard">
@@ -128,18 +140,22 @@
       <workItem from="1517767198416" duration="8000" />
       <workItem from="1517938361375" duration="74000" />
       <workItem from="1517941246713" duration="94000" />
+      <workItem from="1518003477279" duration="369000" />
+      <workItem from="1519755503174" duration="621000" />
+      <workItem from="1519814816279" duration="11000" />
+      <workItem from="1519975700396" duration="38000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2900000" />
+    <option name="totallyTimeSpent" value="3939000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="136" y="9" width="1303" height="780" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1944658" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25057647" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -171,9 +187,88 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/StackMiddleware/LiteSpeedCache.php">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4158">
+          <caret line="247" column="66" lean-forward="false" selection-start-line="247" selection-start-column="66" selection-end-line="247" selection-end-column="66" />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/EventSubscriber/LiteSpeedCacheSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="51" column="6" lean-forward="false" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/StackMiddleware/LiteSpeedCache.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4446">
+          <caret line="247" column="66" lean-forward="false" selection-start-line="247" selection-start-column="66" selection-end-line="247" selection-end-column="66" />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/EventSubscriber/LiteSpeedCacheSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="51" column="6" lean-forward="false" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/StackMiddleware/LiteSpeedCache.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4158">
+          <caret line="247" column="66" lean-forward="false" selection-start-line="247" selection-start-column="66" selection-end-line="247" selection-end-column="66" />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/EventSubscriber/LiteSpeedCacheSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="51" column="6" lean-forward="false" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/StackMiddleware/LiteSpeedCache.php">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4140">
           <caret line="246" column="66" lean-forward="false" selection-start-line="246" selection-start-column="66" selection-end-line="246" selection-end-column="66" />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/EventSubscriber/LiteSpeedCacheSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="51" column="6" lean-forward="true" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/StackMiddleware/LiteSpeedCache.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4140">
+          <caret line="246" column="66" lean-forward="false" selection-start-line="246" selection-start-column="66" selection-end-line="246" selection-end-column="66" />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -189,7 +284,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -205,7 +303,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4428">
           <caret line="246" column="66" lean-forward="false" selection-start-line="246" selection-start-column="66" selection-end-line="246" selection-end-column="66" />
-          <folding />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -221,7 +322,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4140">
           <caret line="246" column="66" lean-forward="false" selection-start-line="246" selection-start-column="66" selection-end-line="246" selection-end-column="66" />
-          <folding />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -237,7 +341,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4140">
           <caret line="246" column="66" lean-forward="true" selection-start-line="246" selection-start-column="66" selection-end-line="246" selection-end-column="66" />
-          <folding />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -251,16 +358,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/StackMiddleware/LiteSpeedCache.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4140">
-          <caret line="246" column="66" lean-forward="false" selection-start-line="246" selection-start-column="66" selection-end-line="246" selection-end-column="66" />
-          <folding />
+        <state relative-caret-position="4158">
+          <caret line="247" column="66" lean-forward="false" selection-start-line="247" selection-start-column="66" selection-end-line="247" selection-end-column="66" />
+          <folding>
+            <marker date="1517945071000" expanded="true" signature="2569:2603" ph="..." />
+            <marker date="1517945071000" expanded="true" signature="8726:8816" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/EventSubscriber/LiteSpeedCacheSubscriber.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="51" column="6" lean-forward="true" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+        <state relative-caret-position="18">
+          <caret line="51" column="6" lean-forward="false" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
           <folding />
         </state>
       </provider>

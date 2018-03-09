@@ -53,7 +53,7 @@ Go to
 
     http://example.com/admin/config/development/lscache
 
-![LiteSpeed Cache Drupal Plugin Configurations](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:lscache-drupal.png?cache=)
+![LiteSpeed Cache Drupal Plugin Configurations](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:configure-lscache.png?cache=)
 
 **Clear Cache**
 
@@ -73,11 +73,7 @@ If turned on, LiteSpeed Cache will emit extra headers for testing while developi
 
 OpenLiteSpeed doesn't support ESI, although it does no harm to keep it turned on.
 
-**Max Age**
+**Public Cache TTL**
 
 Amount of time LiteSpeed web server will save pages in the public cache.
-
-**Max Age Private**
-
-Amount of time LiteSpeed web server will save pages in the private cache.
 

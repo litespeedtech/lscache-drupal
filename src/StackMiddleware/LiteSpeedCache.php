@@ -84,7 +84,9 @@ class LiteSpeedCache implements HttpKernelInterface {
 
     private function filterTags($tags){
         $finalTags = [];
+
         $commonTag = substr(md5(DRUPAL_ROOT),0,5);
+
         foreach ($tags as $val) {
             if (strpos($val, 'config') !== false) {
                 continue;
