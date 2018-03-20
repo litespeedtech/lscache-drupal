@@ -44,7 +44,7 @@ class LSCacheTagsInvalidator implements CacheTagsInvalidatorInterface {
         $commonTag = substr(md5(DRUPAL_ROOT),0,5);
 
         foreach ($tags as $val) {
-            if (strpos($val, 'config') !== false) {
+            if (strpos($val, 'config') !== false or ($val == "http_response") or ($val == "rendered")) {
                 LSCacheTagsInvalidator::$purgeAllByTags = 1;
                 return;
             }
