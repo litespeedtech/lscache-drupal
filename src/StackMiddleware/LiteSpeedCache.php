@@ -88,7 +88,7 @@ class LiteSpeedCache implements HttpKernelInterface {
         $commonTag = substr(md5(DRUPAL_ROOT),0,5);
 
         foreach ($tags as $val) {
-            if (strpos($val, 'config') !== false) {
+            if (strpos($val, 'config') !== false or ($val == "http_response") or ($val == "rendered")) {
                 continue;
             }
             else{
@@ -105,13 +105,23 @@ class LiteSpeedCache implements HttpKernelInterface {
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
 
 
-        // Only allow page caching on master request.
-        if ($type === static::MASTER_REQUEST && $this->requestPolicy->check($request) === RequestPolicyInterface::ALLOW) {
-            $response = $this->lookup($request, $type, $catch);
-        }
-        else {
+
+        if( (isset($_SERVER['X-LSCACHE']) && $_SERVER['X-LSCACHE']) || (isset($_SERVER['HTTP_X_LSCACHE']) && $_SERVER['HTTP_X_LSCACHE']) ){
+
+            // Only allow page caching on master request.
+            if ($type === static::MASTER_REQUEST && $this->requestPolicy->check($request) === RequestPolicyInterface::ALLOW) {
+                $response = $this->lookup($request, $type, $catch);
+            }
+            else {
+                $response = $this->pass($request, $type, $catch);
+            }
+
+        }else{
             $response = $this->pass($request, $type, $catch);
         }
+
+
+
 
         return $response;
     }
