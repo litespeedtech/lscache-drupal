@@ -17,7 +17,7 @@ Download
 -------------
 Download LiteSpeed Cache Module to your local computer from:
 
-    https://github.com/litespeedtech/lscache_drupal/archive/master.zip
+    https://github.com/litespeedtech/lscache-drupal/archive/master.zip
 
 Enable LiteSpeedCache using rewrite rules
 -------------
