@@ -19,6 +19,20 @@ Download LiteSpeed Cache Module to your local computer from:
 
     https://github.com/litespeedtech/lscache-drupal/archive/master.zip
 
+If you use Composer to manage dependencies, require the module in your project `composer.json`:
+
+```
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:litespeedtech/lscache-drupal.git"
+    }
+  ],
+  "require": {
+    "litespeedtech/lscache-drupal": "master"
+  },
+```
+
 Enable LiteSpeedCache using rewrite rules
 -------------
 
@@ -28,7 +42,7 @@ Enable LiteSpeedCache using rewrite rules
 
 Install Plugin
 -------------
-Once you have downloaded the plugin, you can install by visiting: 
+Once you have downloaded the plugin, you can install by visiting:
 
     http://example.com/admin/modules/install
 
@@ -72,4 +86,3 @@ If turned on, LiteSpeed Cache will emit extra headers for testing while developi
 **Public Cache TTL**
 
 Amount of time LiteSpeed web server will save pages in the public cache.
-

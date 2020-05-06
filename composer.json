@@ -1,0 +1,7 @@
+{
+  "name": "litespeedtech/lscache-drupal",
+  "description": "LiteSpeed Cache. Caches pages for any user, handling dynamic content correctly.",
+  "type": "drupal-module",
+  "license": "GPL-3.0-only",
+  "minimum-stability": "dev"
+}
