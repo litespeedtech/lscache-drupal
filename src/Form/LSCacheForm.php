@@ -10,6 +10,7 @@ namespace Drupal\lite_speed_cache\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 
 
 class LSCacheForm extends ConfigFormBase
@@ -164,7 +165,7 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitAllCache(array &$form, FormStateInterface $form_state) {
         LSCacheForm::$purgeALL = 1;
-        drupal_set_message(t('Instructed LiteSpeed Web Server to clear all cache!'));
+        MessengerInterface::addMessage(t('Instructed LiteSpeed Web Server to clear all cache!'));
     }
 
     /**
@@ -172,7 +173,7 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitThisCache(array &$form, FormStateInterface $form_state) {
         LSCacheForm::$purgeThisSite = 1;
-        drupal_set_message(t('Instructed LiteSpeed Web Server to clear this site cache!'));
+        MessengerInterface::addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
     }
 
 
