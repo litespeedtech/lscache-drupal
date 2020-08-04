@@ -165,7 +165,7 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitAllCache(array &$form, FormStateInterface $form_state) {
         LSCacheForm::$purgeALL = 1;
-        MessengerInterface::addMessage(t('Instructed LiteSpeed Web Server to clear all cache!'));
+        \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear all cache!'));
     }
 
     /**
@@ -173,7 +173,7 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitThisCache(array &$form, FormStateInterface $form_state) {
         LSCacheForm::$purgeThisSite = 1;
-        MessengerInterface::addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
+        \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
     }
 
 
