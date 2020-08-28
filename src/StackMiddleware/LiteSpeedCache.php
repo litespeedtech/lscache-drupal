@@ -166,7 +166,7 @@ class LiteSpeedCache implements HttpKernelInterface {
         $response = $this->fetch($request, $type, $catch);
 
         if (!$response instanceof CacheableResponseInterface) {
-            return;
+            return $response;
         }
 
         // Only allow caching in the browser and prevent that the response is stored
@@ -234,7 +234,7 @@ class LiteSpeedCache implements HttpKernelInterface {
         // response.
 
         if (!$response instanceof CacheableResponseInterface) {
-            return;
+            return $response;
         }
 
         // This plugin config object
