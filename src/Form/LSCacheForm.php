@@ -12,11 +12,12 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 
+require ('functions.php');
 
 class LSCacheForm extends ConfigFormBase
 {
     /**
-     * Purge all status variable
+     l Purge all status variable
      */
 
     public static $purgeALL;
@@ -72,7 +73,13 @@ class LSCacheForm extends ConfigFormBase
             '#value' => t('Clear all'),
             '#submit' => ['::submitAllCache'],
         ];
-
+	// wade:start
+	$form['clear_cache']['crawler'] = [
+            '#type' => 'submit',
+            '#value' => t('crawler'),
+            '#submit' => ['::crawler'],
+        ];
+	// wade: end
         $form['cache_settings'] = [
             '#type' => 'details',
             '#title' => t('LSCache Settings!'),
@@ -176,6 +183,15 @@ class LSCacheForm extends ConfigFormBase
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
     }
 
-
+    /**
+     * Crawler XML Sitemap.
+     */
+    public function crawler(array &$form, FormStateInterface $form_state) {
+        $url_list = read_sitemap($GLOBALS['base_url']);
+        foreach ($url_list as $url){
+            curl($url);
+            \Drupal::messenger()->addMessage(t($url));
+        }
+    }
 
 }
