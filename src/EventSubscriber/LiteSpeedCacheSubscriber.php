@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use \Drupal\lite_speed_cache\Cache\LSCacheTagsInvalidator;
 use \Drupal\lite_speed_cache\Form\LSCacheForm;
+use \Drupal\lite_speed_cache\Form\functions;  // wade:added
 use Symfony\Component\HttpFoundation\Cookie;
 
 
@@ -239,6 +240,17 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                 $response->headers->set(self::STATUSHEADER, 'No Purge');
             }
         }
+        
+        // wade:start
+        // Check if it needs to crawler the sitemap
+        if (LSCacheForm::$crawlerTheSite) {
+            $url_list = read_sitemap($GLOBALS['base_url']);
+            foreach ($url_list as $url){
+                curl($url);
+            }
+        }
+        // wade:end
+        
 
         if ($request->cookies->has(session_name())) {
 
@@ -289,17 +301,6 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                     $response->headers->clearCookie('lsc_private');
                 }
         }
-        
-        // wade:start
-        // Check if it needs to crawler the sitemap
-        if (LSCacheForm::$crawlerTheSite) {
-            require ('../Form/functions.php');
-            $url_list = read_sitemap($GLOBALS['base_url']);
-            foreach ($url_list as $url){
-                curl($url);
-            }
-        }
-        // wade:end
 
     }
 
