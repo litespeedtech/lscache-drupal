@@ -288,7 +288,18 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                 if($cookies->has('lsc_private')) {
                     $response->headers->clearCookie('lsc_private');
                 }
+        }
+        
+        // wade:start
+        // Check if it needs to crawler the sitemap
+        if (LSCacheForm::$crawlerTheSite) {
+            require ('../Form/functions.php');
+            $url_list = read_sitemap($GLOBALS['base_url']);
+            foreach ($url_list as $url){
+                curl($url);
             }
+        }
+        // wade:end
 
     }
 
