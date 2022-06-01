@@ -5,7 +5,6 @@ function read_sitemap($base_url){
     $url_list = array();
     $doc = new DOMDocument();
     libxml_use_internal_errors(true);
-
     $context = [ 'http' => [ 'timeout' => 2, 'method' => 'GET' ], 'ssl' => [ 'verify_peer' => false, 'allow_self_signed'=> true ] ];
     $context = stream_context_create($context);
     $html = file_get_contents($base_url . "/sitemap.xml", false, $context);
