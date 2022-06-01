@@ -183,15 +183,19 @@ class LSCacheForm extends ConfigFormBase
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
     }
 
-    /**
+   /**
      * Crawler XML Sitemap.
      */
     public function crawler(array &$form, FormStateInterface $form_state) {
         $url_list = read_sitemap($GLOBALS['base_url']);
-        foreach ($url_list as $url){
-            curl($url);
-            \Drupal::messenger()->addMessage(t($url));
+        if (count($url_list) <= 0){
+            \Drupal::messenger()->addWarning(t('There is no sitemap.xml detect, please install the XML Sitemap extension and setup it.'));
+        } else {
+            LSCacheForm::$crawlerTheSite = 1;
+            foreach ($url_list as $url){
+                // curl($url);
+                \Drupal::messenger()->addMessage(t($url));
+            }
         }
     }
-
 }
