@@ -12,12 +12,11 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 
-require ('functions.php');
 
 class LSCacheForm extends ConfigFormBase
 {
     /**
-     l Purge all status variable
+     * Purge all status variable
      */
 
     public static $purgeALL;
@@ -28,13 +27,6 @@ class LSCacheForm extends ConfigFormBase
 
     public static $purgeThisSite;
 
-	/**
-     * crawler this site status variable
-     */
-
-    public static $crawlerTheSite;
-
-	
     /**
      * {@inheritdoc}
      */
@@ -47,7 +39,7 @@ class LSCacheForm extends ConfigFormBase
      */
     protected function getEditableConfigNames() {
         return [
-            'lite_speed_cache.settings',
+            'lite_speed_cache.settings','system.performance',
         ];
     }
 
@@ -80,13 +72,7 @@ class LSCacheForm extends ConfigFormBase
             '#value' => t('Clear all'),
             '#submit' => ['::submitAllCache'],
         ];
-	// wade:start
-	$form['clear_cache']['crawler'] = [
-            '#type' => 'submit',
-            '#value' => t('crawler'),
-            '#submit' => ['::crawler'],
-        ];
-	// wade: end
+
         $form['cache_settings'] = [
             '#type' => 'details',
             '#title' => t('LSCache Settings!'),
@@ -164,12 +150,20 @@ class LSCacheForm extends ConfigFormBase
      * {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
+        $cacheStatus = $form_state->getValue('cache_status');
+
         $config = $this->config('lite_speed_cache.settings');
         //$config->set('lite_speed_cache.esi_on', $form_state->getValue('esi_on'));
         $config->set('lite_speed_cache.max_age', $form_state->getValue('max_age'));
         //$config->set('lite_speed_cache.max_age_private', $form_state->getValue('max_age_private'));
         $config->set('lite_speed_cache.cache_status', $form_state->getValue('cache_status'));
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
+        $config->save();
+        
+        // Prevent gzip cause broken website layout
+        $config = $this->config('system.performance');
+        $config->set('css.preprocess', '0');
+        $config->set('js.preprocess', '0');
         $config->save();
         return parent::submitForm($form, $form_state);
     }
@@ -190,19 +184,4 @@ class LSCacheForm extends ConfigFormBase
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
     }
 
-   /**
-     * Crawler XML Sitemap.
-     */
-    public function crawler(array &$form, FormStateInterface $form_state) {
-        $url_list = read_sitemap($GLOBALS['base_url']);
-        if (count($url_list) <= 0){
-            \Drupal::messenger()->addWarning(t('There is no sitemap.xml detect, please install the XML Sitemap extension and setup it.'));
-        } else {
-            LSCacheForm::$crawlerTheSite = 1;
-            foreach ($url_list as $url){
-                // curl($url);
-                \Drupal::messenger()->addMessage(t($url));
-            }
-        }
-    }
 }

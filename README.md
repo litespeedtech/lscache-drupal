@@ -56,6 +56,7 @@ http://example.com/drupal/admin/modules
 * Use the search box to search for a module.
 * Check the checkbox next to LiteSpeed Cache.
 * Click Install.
+* Turn on LiteSpeed Cache in Module Settings.
 
 
 Configurations
