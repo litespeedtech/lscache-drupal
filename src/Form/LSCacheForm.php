@@ -26,6 +26,12 @@ class LSCacheForm extends ConfigFormBase
      */
 
     public static $purgeThisSite;
+        
+    /**
+    * crawlear this site variable
+    */
+
+    public static $crawlerTheSite;
 
     /**
      * {@inheritdoc}
