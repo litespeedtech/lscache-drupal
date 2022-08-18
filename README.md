@@ -1,7 +1,7 @@
-LiteSpeed Cache for Drupal 8
+LiteSpeed Cache for Drupal 8+
 ============================
 
-Drupal 8 is significantly changed from Drupal 7. They have converted from procedural programming to object-oriented programming. Drupal 8 has a built-in page cache (for static content) and a dynamic page cache for logged in users. The latter basically works as a reverse proxy written in PHP. The built-in proxy is good if you have no other options, however, with the LiteSpeed Cache plugin you will see a great improvement in performance for your Drupal 8 site.
+Drupal 8/9 is significantly changed from Drupal 7. They have converted from procedural programming to object-oriented programming. Drupal 8 has a built-in page cache (for static content) and a dynamic page cache for logged in users. The latter basically works as a reverse proxy written in PHP. The built-in proxy is good if you have no other options, however, with the LiteSpeed Cache plugin you will see a great improvement in performance for your Drupal 8 site.
 
 See https://www.litespeedtech.com/products/cache-plugins for more information.
 
