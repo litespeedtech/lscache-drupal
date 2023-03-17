@@ -5,8 +5,6 @@
  * Installation functions for LiteSpeed Cache module.
  */
 
-use Drupal\user\RoleInterface;
-
 /**
  * Implements hook_install().
  */

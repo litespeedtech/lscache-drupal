@@ -9,14 +9,13 @@
 namespace Drupal\lite_speed_cache\EventSubscriber;
 
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Cache\CacheableResponseInterface;
 use Drupal\Core\PageCache\RequestPolicyInterface;
 use Drupal\Core\PageCache\ResponsePolicyInterface;
 use Drupal\Core\Render\RenderCacheInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use \Drupal\lite_speed_cache\Cache\LSCacheTagsInvalidator;
 use \Drupal\lite_speed_cache\Form\LSCacheForm;
@@ -122,10 +121,10 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
     /**
      * Sets a response in case of a Dynamic Page Cache hit.
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
      *   The event to process.
      */
-    public function onRouteMatch(GetResponseEvent $event) {
+    public function onRouteMatch(RequestEvent $event) {
 
         // Don't cache the response if the Dynamic Page Cache request policies are
         // not met. Store the result in a static keyed by current request, so that
@@ -160,10 +159,10 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
     /**
      * Stores a response in case of a Dynamic Page Cache miss, if cacheable.
      *
-     * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+     * @param \Symfony\Component\HttpKernel\Event\ResponseEvent $event
      *   The event to process.
      */
-    public function onResponse(FilterResponseEvent $event){
+    public function onResponse(ResponseEvent $event){
         $response = $event->getResponse();
         $request = $event->getRequest();
 
@@ -240,7 +239,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                 $response->headers->set(self::STATUSHEADER, 'No Purge');
             }
         }
-        
+
         // wade:start
         // Check if it needs to crawler the sitemap
         if (LSCacheForm::$crawlerTheSite) {
@@ -250,7 +249,6 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
             }
         }
         // wade:end
-        
 
         if ($request->cookies->has(session_name())) {
 
@@ -270,17 +268,14 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                 return;
             }
 
-
             $request = $event->getRequest();
             if (!isset($this->requestPolicyResults[$request])) {
                 return;
             }
 
-
             if ($this->requestPolicyResults[$request] === RequestPolicyInterface::DENY || $this->responsePolicy->check($response, $request) === ResponsePolicyInterface::DENY) {
                     return;
             }
-
 
             if($cacheStatus=='0' or $cacheStatus == 'On')  {
                 $response->headers->set('X-LiteSpeed-Cache-Control', 'private, max-age='.$maxAgePrivate);
@@ -290,7 +285,6 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                 $tags = implode(',', $tags);
                 $response->headers->set('X-LiteSpeed-Tag', $tags);
             }
-
 
         }else {
                 $cookies = $request->cookies;
@@ -303,7 +297,6 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
         }
 
     }
-
 
     /**
      * Whether the given response should be cached by LiteSpeed Page Cache.
@@ -339,8 +332,6 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
         return TRUE;
     }
 
-
-    /**
     /**
      * {@inheritdoc}
      */
