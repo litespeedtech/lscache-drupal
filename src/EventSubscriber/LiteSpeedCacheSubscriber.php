@@ -193,7 +193,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'LS Cache Purged!');
             }
-            $response->headers->set(LiteSpeedCacheSubscriber::PURGEHEADER, $commonTag);
+            $response->headers->set(self::PURGEHEADER, $commonTag);
         } else {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'No Purge!');
@@ -207,7 +207,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
                 $response->headers->set(self::STATUSHEADER, 'LS Cache Purged!');
             }
             $tags = implode(",", LSCacheTagsInvalidator::$tags);
-            $response->headers->set(LiteSpeedCacheSubscriber::PURGEHEADER, $tags);
+            $response->headers->set(self::PURGEHEADER, $tags);
         } else {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'No Purge!');
@@ -220,7 +220,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'LS Cache Purged!');
             }
-            $response->headers->set(LiteSpeedCacheSubscriber::PURGEHEADER, "*");
+            $response->headers->set(self::PURGEHEADER, "*");
         } else {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'No Purge');
@@ -233,7 +233,7 @@ class LiteSpeedCacheSubscriber implements EventSubscriberInterface {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'LS Cache Purged!');
             }
-            $response->headers->set(LiteSpeedCacheSubscriber::PURGEHEADER, $commonTag);
+            $response->headers->set(self::PURGEHEADER, $commonTag);
         } else {
             if($lsCacheDebug=='0' or $lsCacheDebug == 'On') {
                 $response->headers->set(self::STATUSHEADER, 'No Purge');

@@ -30,13 +30,3 @@ function lite_speed_cache_help($route_name, RouteMatchInterface $route_match) {
             return $output;
     }
 }
-
-
-/**
- * Implements hook_user_login($account).
- */
-
-
-function lite_speed_cache_user_login($account) {
-    $reqTemp = \Drupal::request();
-}
