@@ -8,7 +8,6 @@
 
 namespace Drupal\lite_speed_cache\Cache;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 
 class LSCacheTagsInvalidator implements CacheTagsInvalidatorInterface {

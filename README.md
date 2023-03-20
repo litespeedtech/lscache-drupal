@@ -1,7 +1,7 @@
-LiteSpeed Cache for Drupal 8+
+LiteSpeed Cache for Drupal 9+
 ============================
 
-Drupal 8/9 is significantly changed from Drupal 7. They have converted from procedural programming to object-oriented programming. Drupal 8 has a built-in page cache (for static content) and a dynamic page cache for logged in users. The latter basically works as a reverse proxy written in PHP. The built-in proxy is good if you have no other options, however, with the LiteSpeed Cache plugin you will see a great improvement in performance for your Drupal 8 site.
+Drupal 9+ is significantly changed from Drupal 7. They have converted from procedural programming to object-oriented programming. Drupal 9+ has a built-in page cache (for static content) and a dynamic page cache for logged in users. The latter basically works as a reverse proxy written in PHP. The built-in proxy is good if you have no other options, however, with the LiteSpeed Cache plugin you will see a great improvement in performance for your Drupal 9+ site.
 
 See https://www.litespeedtech.com/products/cache-plugins for more information.
 
@@ -9,7 +9,7 @@ See https://www.litespeedtech.com/products/cache-plugins for more information.
 
 Prerequisites
 -------------
-This version of LiteSpeed Cache requires Drupal 8.xx or later and LiteSpeed Web Server (LSWS) 5.2.3 or later.
+This version of LiteSpeed Cache requires Drupal 9 or later and LiteSpeed Web Server (LSWS) 5.2.3 or later.
 
 
 
@@ -36,9 +36,11 @@ If you use Composer to manage dependencies, require the module in your project `
 Enable LiteSpeedCache using rewrite rules
 -------------
 
-    <IfModule LiteSpeed>
-	CacheLookup on
-    </IfModule>
+```
+<IfModule LiteSpeed>
+  CacheLookup on
+</IfModule>
+```
 
 Install Plugin
 -------------

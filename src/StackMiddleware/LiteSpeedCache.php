@@ -8,13 +8,10 @@
 
 namespace Drupal\lite_speed_cache\StackMiddleware;
 
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableResponseInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\PageCache\RequestPolicyInterface;
 use Drupal\Core\PageCache\ResponsePolicyInterface;
-use Drupal\Core\Site\Settings;
-use Drupal\user\Authentication\Provider\Cookie;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,14 +99,14 @@ class LiteSpeedCache implements HttpKernelInterface {
      * {@inheritdoc}
      */
 
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
+    public function handle(Request $request, $type = self::MAIN_REQUEST, $catch = TRUE):Response {
 
 
 
         if( (isset($_SERVER['X-LSCACHE']) && $_SERVER['X-LSCACHE']) || (isset($_SERVER['HTTP_X_LSCACHE']) && $_SERVER['HTTP_X_LSCACHE']) ){
 
             // Only allow page caching on master request.
-            if ($type === static::MASTER_REQUEST && $this->requestPolicy->check($request) === RequestPolicyInterface::ALLOW) {
+            if ($type === static::MAIN_REQUEST && $this->requestPolicy->check($request) === RequestPolicyInterface::ALLOW) {
                 $response = $this->lookup($request, $type, $catch);
             }
             else {
@@ -132,7 +129,7 @@ class LiteSpeedCache implements HttpKernelInterface {
      * @param \Symfony\Component\HttpFoundation\Request $request
      *   A request object.
      * @param int $type
-     *   The type of the request (one of HttpKernelInterface::MASTER_REQUEST or
+     *   The type of the request (one of HttpKernelInterface::MAIN_REQUEST or
      *   HttpKernelInterface::SUB_REQUEST)
      * @param bool $catch
      *   Whether to catch exceptions or not
@@ -140,7 +137,7 @@ class LiteSpeedCache implements HttpKernelInterface {
      * @returns \Symfony\Component\HttpFoundation\Response $response
      *   A response object.
      */
-    protected function pass(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
+    protected function pass(Request $request, $type = self::MAIN_REQUEST, $catch = TRUE) {
         return $this->httpKernel->handle($request, $type, $catch);
     }
 
@@ -150,7 +147,7 @@ class LiteSpeedCache implements HttpKernelInterface {
      * @param \Symfony\Component\HttpFoundation\Request $request
      *   A request object.
      * @param int $type
-     *   The type of the request (one of HttpKernelInterface::MASTER_REQUEST or
+     *   The type of the request (one of HttpKernelInterface::MAIN_REQUEST or
      *   HttpKernelInterface::SUB_REQUEST)
      * @param bool $catch
      *   Whether to catch exceptions or not
@@ -158,7 +155,7 @@ class LiteSpeedCache implements HttpKernelInterface {
      * @returns \Symfony\Component\HttpFoundation\Response $response
      *   A response object.
      */
-    protected function lookup(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
+    protected function lookup(Request $request, $type = self::MAIN_REQUEST, $catch = TRUE) {
 
 
         // fetch request from backend and set cache headers
@@ -218,7 +215,7 @@ class LiteSpeedCache implements HttpKernelInterface {
      * @param \Symfony\Component\HttpFoundation\Request $request
      *   A request object.
      * @param int $type
-     *   The type of the request (one of HttpKernelInterface::MASTER_REQUEST or
+     *   The type of the request (one of HttpKernelInterface::MAIN_REQUEST or
      *   HttpKernelInterface::SUB_REQUEST)
      * @param bool $catch
      *   Whether to catch exceptions or not
@@ -226,7 +223,7 @@ class LiteSpeedCache implements HttpKernelInterface {
      * @returns \Symfony\Component\HttpFoundation\Response $response
      *   A response object.
      */
-    protected function fetch(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
+    protected function fetch(Request $request, $type = self::MAIN_REQUEST, $catch = TRUE) {
         /** @var \Symfony\Component\HttpFoundation\Response $response */
         $response = $this->httpKernel->handle($request, $type, $catch);
 

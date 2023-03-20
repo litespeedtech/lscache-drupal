@@ -18,19 +18,16 @@ class LSCacheForm extends ConfigFormBase
     /**
      * Purge all status variable
      */
-
     public static $purgeALL;
 
     /**
      * Purge this site status variable
      */
-
     public static $purgeThisSite;
-        
+
     /**
     * crawlear this site variable
     */
-
     public static $crawlerTheSite;
 
     /**
@@ -48,7 +45,6 @@ class LSCacheForm extends ConfigFormBase
             'lite_speed_cache.settings','system.performance',
         ];
     }
-
 
     /**
      * {@inheritdoc}
@@ -105,21 +101,7 @@ class LSCacheForm extends ConfigFormBase
             '#description' => $this->t('Weather to send or not the debug headers!'),
         );
 
-
         $options = ['On','Off'];
-
-        /*
-
-        $form['cache_settings']['esi_on'] = array(
-            '#type' => 'select',
-            '#title' => $this->t('ESI'),
-            '#options' => $options,
-            '#default_value' => $config->get('lite_speed_cache.esi_on'),
-            '#description' => $this->t('Turn ESI On or Off for Hole Punching! Keep it disabled if you are on OpenLiteSpeed.'),
-        );
-
-        */
-
 
         // max_age field.
         $form['cache_settings']['max_age'] = array(
@@ -128,18 +110,6 @@ class LSCacheForm extends ConfigFormBase
             '#default_value' => $config->get('lite_speed_cache.max_age'),
             '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver public cache (Seconds).'),
         );
-
-        /*
-
-        // max_age field.
-        $form['cache_settings']['max_age_private'] = array(
-            '#type' => 'textfield',
-            '#title' => $this->t('Max age private'),
-            '#default_value' => $config->get('lite_speed_cache.max_age_private'),
-            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver private cache.'),
-        );
-
-        */
 
         return $form;
     }
@@ -165,7 +135,7 @@ class LSCacheForm extends ConfigFormBase
         $config->set('lite_speed_cache.cache_status', $form_state->getValue('cache_status'));
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
         $config->save();
-        
+
         // Prevent gzip cause broken website layout
         $config = $this->config('system.performance');
         $config->set('css.preprocess', '0');
