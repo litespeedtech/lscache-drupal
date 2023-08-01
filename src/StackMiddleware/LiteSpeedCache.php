@@ -54,6 +54,7 @@ class LiteSpeedCache implements HttpKernelInterface {
      * Name of LiteSpeed Page Cache's response header.
      */
     const LSCACHE = 'X-LiteSpeed-Cache-Control';
+    const MAIN_REQUEST = 1 ;
 
     /**
      * Constructs a PageCache object.
