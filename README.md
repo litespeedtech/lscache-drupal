@@ -33,21 +33,6 @@ If you use Composer to manage dependencies, require the module in your project `
   },
 ```
 
-Enable LiteSpeedCache using rewrite rules
--------------
-Add following directives to DRUPAL_FOLDER/web/.htaccess
-```
-<IfModule LiteSpeed>
-  CacheLookup on
-</IfModule>
-```
-
-Add following directives to DRUPAL_FOLDER/web/sites/default/settings.php
-```
-$settings['cache']['bins']['page'] = 'cache.backend.lscache';
-```
-
-
 Install Plugin
 -------------
 Once you have downloaded the plugin, you can install by visiting:
@@ -65,6 +50,21 @@ http://example.com/drupal/admin/modules
 * Check the checkbox next to LiteSpeed Cache.
 * Click Install.
 * Turn on LiteSpeed Cache in Module Settings.
+
+
+Enable LiteSpeedCache
+-------------
+Add following directives to DRUPAL_FOLDER/web/.htaccess
+```
+<IfModule LiteSpeed>
+  CacheLookup on
+</IfModule>
+```
+
+Add following directives to DRUPAL_FOLDER/web/sites/default/settings.php
+```
+$settings['cache']['bins']['page'] = 'cache.backend.lscache';
+```
 
 
 Configurations
