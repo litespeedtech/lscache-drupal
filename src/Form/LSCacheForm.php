@@ -11,7 +11,8 @@ namespace Drupal\lite_speed_cache\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-
+use Drupal\lite_speed_cache\Cache\LSCacheCore;
+use Drupal\lite_speed_cache\Cache\LSCacheBase;
 
 class LSCacheForm extends ConfigFormBase
 {
@@ -126,16 +127,21 @@ class LSCacheForm extends ConfigFormBase
      * {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
-        $cacheStatus = $form_state->getValue('cache_status');
-
         $config = $this->config('lite_speed_cache.settings');
+        $cacheStatus = $form_state->getValue('cache_status');
+        $oldCacheStatus = $config->get('lite_speed_cache.cache_status');
         //$config->set('lite_speed_cache.esi_on', $form_state->getValue('esi_on'));
         $config->set('lite_speed_cache.max_age', $form_state->getValue('max_age'));
         //$config->set('lite_speed_cache.max_age_private', $form_state->getValue('max_age_private'));
-        $config->set('lite_speed_cache.cache_status', $form_state->getValue('cache_status'));
+        $config->set('lite_speed_cache.cache_status', $cacheStatus);
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
         $config->save();
 
+        if(($oldCacheStatus=="1") && ($cacheStatus=="0")){
+            $this->initHtaccess();
+            $this->initSettings();
+        }
+        
         // Prevent gzip cause broken website layout
         $config = $this->config('system.performance');
         $config->set('css.preprocess', '0');
@@ -149,6 +155,8 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitAllCache(array &$form, FormStateInterface $form_state) {
         LSCacheForm::$purgeALL = 1;
+        $lscInstance = new LSCacheBase();
+        $lscInstance->purgeAllPublic();
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear all cache!'));
     }
 
@@ -157,7 +165,57 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitThisCache(array &$form, FormStateInterface $form_state) {
         LSCacheForm::$purgeThisSite = 1;
+        $lscInstance = new LSCacheCore();
+        $lscInstance->purgeAllPublic();
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
     }
+
+
+    private function initHtaccess($mobile = false) {
+        $htaccess = DRUPAL_ROOT . '/.htaccess';
+
+        $directives = '### LITESPEED_CACHE_START - Do not remove this line' . PHP_EOL;
+        $directives .= '<IfModule LiteSpeed>' . PHP_EOL;
+        $directives .= 'CacheLookup on' . PHP_EOL;
+        $directives .= '</IfModule>' . PHP_EOL;
+        $directives .= '### LITESPEED_CACHE_END';
+
+        $pattern = '@### LITESPEED_CACHE_START - Do not remove this line.*?### LITESPEED_CACHE_END@s';
+
+        if (file_exists($htaccess)) {
+            $content = file_get_contents($htaccess);
+            $newContent = preg_replace($pattern, $directives, $content, -1, $count);
+
+            if ($count <= 0) {
+                $newContent = preg_replace('@\<IfModule\ LiteSpeed\>.*?\<\/IfModule\>@s', '', $content);
+                $newContent = preg_replace('@CacheLookup\ on@s', '', $newContent);
+                file_put_contents($htaccess, $directives .PHP_EOL .$newContent);
+            }
+        } else {
+            file_put_contents($htaccess, $directives);
+        }
+    }
+
+    private function initSettings($mobile = false) {
+        $settings = DRUPAL_ROOT . '/sites/default/settings.php';
+
+        $directives = '### LITESPEED_CACHE_START - Do not remove this line' . PHP_EOL;
+        $directives .= "    \$settings['cache']['bins']['page'] = 'cache.backend.lscache';" . PHP_EOL;
+        $directives .= '### LITESPEED_CACHE_END';
+
+        $pattern = '@### LITESPEED_CACHE_START - Do not remove this line.*?### LITESPEED_CACHE_END@s';
+
+        if (file_exists($settings)) {
+            $content = file_get_contents($settings);
+            $newContent = preg_replace($pattern, $directives, $content, -1, $count);
+
+            if ($count <= 0) {
+                $result = chmod($setting, 0777);
+                file_put_contents($settings, $newContent . PHP_EOL . $directives );
+                $result = chmod($setting, 0444);
+            }
+        }
+    }
+
 
 }

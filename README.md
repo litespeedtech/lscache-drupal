@@ -35,12 +35,18 @@ If you use Composer to manage dependencies, require the module in your project `
 
 Enable LiteSpeedCache using rewrite rules
 -------------
-
+Add following directives to DRUPAL_FOLDER/web/.htaccess
 ```
 <IfModule LiteSpeed>
   CacheLookup on
 </IfModule>
 ```
+
+Add following directives to DRUPAL_FOLDER/web/sites/default/settings.php
+```
+$settings['cache']['bins']['page'] = 'cache.backend.lscache';
+```
+
 
 Install Plugin
 -------------
