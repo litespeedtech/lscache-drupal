@@ -26,9 +26,13 @@ class LSCacheBackendFactory implements CacheFactoryInterface {
      * {@inheritdoc}
      */
     public function get($bin) {
-      if (!isset($this->bins[$bin])) {
-        $this->bins[$bin] = new LSCacheBackend();
+      if (isset($this->bins[$bin])) {
+        if($this->bins[$bin] instanceof LSCacheBackend){
+          return $this->bins[$bin];
+        }
       }
+      
+      $this->bins[$bin] = new LSCacheBackend();
       return $this->bins[$bin];
     }
   
