@@ -136,10 +136,6 @@ class LSCacheForm extends ConfigFormBase
         $config->set('lite_speed_cache.cache_status', $cacheStatus);
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
         $config->save();
-
-        if(($oldCacheStatus=="1") && ($cacheStatus=="0")){
-            $this->initSettings();
-        }
         
         // Prevent gzip cause broken website layout
         $config = $this->config('system.performance');
@@ -168,27 +164,5 @@ class LSCacheForm extends ConfigFormBase
         $lscInstance->purgeAllPublic();
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
     }
-
-    private function initSettings($mobile = false) {
-        $settings = DRUPAL_ROOT . '/sites/default/settings.php';
-
-        $directives = '### LITESPEED_CACHE_START - Do not remove this line' . PHP_EOL;
-        $directives .= "    \$settings['cache']['bins']['page'] = 'cache.backend.lscache';" . PHP_EOL;
-        $directives .= '### LITESPEED_CACHE_END';
-
-        $pattern = '@### LITESPEED_CACHE_START - Do not remove this line.*?### LITESPEED_CACHE_END@s';
-
-        if (file_exists($settings)) {
-            $content = file_get_contents($settings);
-            $newContent = preg_replace($pattern, $directives, $content, -1, $count);
-
-            if ($count <= 0) {
-                $result = chmod($setting, 0777);
-                file_put_contents($settings, $newContent . PHP_EOL . $directives );
-                $result = chmod($setting, 0444);
-            }
-        }
-    }
-
 
 }
