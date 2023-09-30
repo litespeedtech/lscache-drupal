@@ -14,6 +14,8 @@ use Drupal\Core\Cache\CacheFactory;
 
 
 class LSCacheBackendFactory extends CacheFactory {
+
+  protected $bins = [];
   
     /**
      * {@inheritdoc}
@@ -25,9 +27,7 @@ class LSCacheBackendFactory extends CacheFactory {
       }
       
       if (isset($this->bins[$bin])) {
-        if($this->bins[$bin] instanceof LSCacheBackend){
           return $this->bins[$bin];
-        }
       }
       
       $this->bins[$bin] = new LSCacheBackend();

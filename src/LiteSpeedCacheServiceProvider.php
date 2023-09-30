@@ -7,7 +7,7 @@ use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 
 /**
- * Modifies the page.cache service.
+ * Modifies the cache_factory service.
  */
 class LiteSpeedCacheServiceProvider extends ServiceProviderBase {
 
