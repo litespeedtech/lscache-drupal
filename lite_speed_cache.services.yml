@@ -1,4 +1,1 @@
 services:
-
-  cache.backend.lscache:
-    class: Drupal\lite_speed_cache\Cache\LSCacheBackendFactory

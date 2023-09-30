@@ -138,7 +138,6 @@ class LSCacheForm extends ConfigFormBase
         $config->save();
 
         if(($oldCacheStatus=="1") && ($cacheStatus=="0")){
-            $this->initHtaccess();
             $this->initSettings();
         }
         
@@ -168,32 +167,6 @@ class LSCacheForm extends ConfigFormBase
         $lscInstance = new LSCacheCore();
         $lscInstance->purgeAllPublic();
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
-    }
-
-
-    private function initHtaccess($mobile = false) {
-        $htaccess = DRUPAL_ROOT . '/.htaccess';
-
-        $directives = '### LITESPEED_CACHE_START - Do not remove this line' . PHP_EOL;
-        $directives .= '<IfModule LiteSpeed>' . PHP_EOL;
-        $directives .= 'CacheLookup on' . PHP_EOL;
-        $directives .= '</IfModule>' . PHP_EOL;
-        $directives .= '### LITESPEED_CACHE_END';
-
-        $pattern = '@### LITESPEED_CACHE_START - Do not remove this line.*?### LITESPEED_CACHE_END@s';
-
-        if (file_exists($htaccess)) {
-            $content = file_get_contents($htaccess);
-            $newContent = preg_replace($pattern, $directives, $content, -1, $count);
-
-            if ($count <= 0) {
-                $newContent = preg_replace('@\<IfModule\ LiteSpeed\>.*?\<\/IfModule\>@s', '', $content);
-                $newContent = preg_replace('@CacheLookup\ on@s', '', $newContent);
-                file_put_contents($htaccess, $directives .PHP_EOL .$newContent);
-            }
-        } else {
-            file_put_contents($htaccess, $directives);
-        }
     }
 
     private function initSettings($mobile = false) {

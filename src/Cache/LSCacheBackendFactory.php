@@ -10,22 +10,20 @@
  * @license    https://opensource.org/licenses/GPL-3.0
  */
 namespace Drupal\lite_speed_cache\Cache;
-use Drupal\Core\Cache\CacheFactoryInterface;
+use Drupal\Core\Cache\CacheFactory;
 
 
-class LSCacheBackendFactory implements CacheFactoryInterface {
-
-    /**
-     * Instantiated memory cache bins.
-     *
-     * @var \Drupal\Core\Cache\MemoryBackend[]
-     */
-    protected $bins = [];
+class LSCacheBackendFactory extends CacheFactory {
   
     /**
      * {@inheritdoc}
      */
     public function get($bin) {
+
+      if($bin!=='page'){
+        return parent::get($bin);
+      }
+      
       if (isset($this->bins[$bin])) {
         if($this->bins[$bin] instanceof LSCacheBackend){
           return $this->bins[$bin];
