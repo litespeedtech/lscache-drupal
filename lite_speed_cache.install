@@ -60,6 +60,6 @@ function lite_speed_cache_uninstall() {
     } else {
     }
 
-    $lscInstance = new \Drupal\lite_speed_cache\LSCacheCore();
-    $lscInstance->purgeALL();
+    $lscInstance = new \Drupal\lite_speed_cache\Cache\LSCacheCore();
+    $lscInstance->purgeAllPublic();
 }
