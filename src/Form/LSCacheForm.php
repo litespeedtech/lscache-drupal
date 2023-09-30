@@ -16,20 +16,6 @@ use Drupal\lite_speed_cache\Cache\LSCacheBase;
 
 class LSCacheForm extends ConfigFormBase
 {
-    /**
-     * Purge all status variable
-     */
-    public static $purgeALL;
-
-    /**
-     * Purge this site status variable
-     */
-    public static $purgeThisSite;
-
-    /**
-    * crawlear this site variable
-    */
-    public static $crawlerTheSite;
 
     /**
      * {@inheritdoc}
@@ -82,7 +68,7 @@ class LSCacheForm extends ConfigFormBase
             '#open' => TRUE,
         ];
 
-        $options = ['On','Off'];
+        $options = ['Off','On'];
 
         $form['cache_settings']['cache_status'] = array(
             '#type' => 'select',
@@ -92,7 +78,7 @@ class LSCacheForm extends ConfigFormBase
             '#description' => $this->t('Disable or enable LiteSpeed Cache completely!'),
         );
 
-        $options = ['On','Off'];
+        $options = ['Off','On'];
 
         $form['cache_settings']['debug'] = array(
             '#type' => 'select',
@@ -101,8 +87,6 @@ class LSCacheForm extends ConfigFormBase
             '#default_value' => $config->get('lite_speed_cache.debug'),
             '#description' => $this->t('Weather to send or not the debug headers!'),
         );
-
-        $options = ['On','Off'];
 
         // max_age field.
         $form['cache_settings']['max_age'] = array(
@@ -129,10 +113,10 @@ class LSCacheForm extends ConfigFormBase
     public function submitForm(array &$form, FormStateInterface $form_state) {
         $config = $this->config('lite_speed_cache.settings');
         $cacheStatus = $form_state->getValue('cache_status');
-        $oldCacheStatus = $config->get('lite_speed_cache.cache_status');
+        //$oldCacheStatus = $config->get('lite_speed_cache.cache_status');
         //$config->set('lite_speed_cache.esi_on', $form_state->getValue('esi_on'));
-        $config->set('lite_speed_cache.max_age', $form_state->getValue('max_age'));
         //$config->set('lite_speed_cache.max_age_private', $form_state->getValue('max_age_private'));
+        $config->set('lite_speed_cache.max_age', $form_state->getValue('max_age'));
         $config->set('lite_speed_cache.cache_status', $cacheStatus);
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
         $config->save();

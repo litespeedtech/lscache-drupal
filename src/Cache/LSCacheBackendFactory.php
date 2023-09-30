@@ -35,4 +35,3 @@ class LSCacheBackendFactory extends CacheFactory {
     }
   
   }
-  

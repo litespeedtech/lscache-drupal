@@ -2,11 +2,11 @@ lite_speed_cache.settings:
   type: config_object
   label: 'LiteSpeed Cache settings'
   mapping:
-    loremipsum:
+    lite_speed_cache_form:
       type: mapping
       mapping:
-        page_title:
-          esi_on: text
+        esi_on:
+          type: text
           label: 'Turn ESI On or Off.'
         max_age:
           type: text

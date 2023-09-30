@@ -35,7 +35,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
     public function set($cid, $data, $expire = Cache::PERMANENT, array $tags = []) {
       $config = \Drupal::config('lite_speed_cache.settings');
       $cacheStatus = $config->get('lite_speed_cache.cache_status');
-      if($cacheStatus=='1' or $cacheStatus == 'Off') {
+      if($cacheStatus=='0' or $cacheStatus == 'Off') {
         return;
       }
       $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
@@ -50,7 +50,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function setMultiple(array $items = []) {
       $cacheStatus = $config->get('lite_speed_cache.cache_status');
-      if($cacheStatus=='1' or $cacheStatus == 'Off') {
+      if($cacheStatus=='0' or $cacheStatus == 'Off') {
         return;
       }
       $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
