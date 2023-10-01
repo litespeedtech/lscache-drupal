@@ -120,12 +120,6 @@ class LSCacheForm extends ConfigFormBase
         $config->set('lite_speed_cache.cache_status', $cacheStatus);
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
         $config->save();
-        
-        // Prevent gzip cause broken website layout
-        $config = $this->config('system.performance');
-        $config->set('css.preprocess', '0');
-        $config->set('js.preprocess', '0');
-        $config->save();
         return parent::submitForm($form, $form_state);
     }
 

@@ -33,6 +33,14 @@ function lite_speed_cache_install() {
         file_put_contents($htaccess, $directives);
     }
 
+    // Prevent gzip cause broken website layout
+    $config = \Drupal::service('config.factory')->getEditable('system.performance');
+    $config->set('css.preprocess', '0');
+    $config->set('js.preprocess', '0');
+    $config->set('css.gzip', '0');
+    $config->set('js.gzip', '0');
+    $config->save();  
+
 }
 
 
