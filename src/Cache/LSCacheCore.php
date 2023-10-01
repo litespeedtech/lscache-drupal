@@ -78,13 +78,30 @@ class LSCacheCore extends LSCacheBase
         $this->liteSpeedHeader($LSheader);
 
         $siteTags = Array();
-        array_push($siteTags, $this->site_only_tag);
+        array_push($siteTags, '');
         $this->tagsForSite($siteTags, $publicTags);
 
         $LSheader = $this->tagCommand( self::CACHE_TAG ,  $siteTags);
         $this->liteSpeedHeader($LSheader);
     }
 
+
+    /**
+     *
+     * put tag in Array together to make an head command .
+     *
+     * @since   1.0.0
+     */
+    protected function tagCommand($start, Array $tagArray){
+        $cmd = $start;
+        
+        foreach ($tagArray as $tag) {
+            $cmd .= $this->site_only_tag . $tag . ",";
+        }
+        return substr($cmd,0,-1);
+    }
+    
+    
     /**
      *
      * Cache this page for private session if not cached before
@@ -112,7 +129,7 @@ class LSCacheCore extends LSCacheBase
         }
         
         $this->tagsForSite($siteTags, $privateTags);
-        array_push($siteTags,  $this->site_only_tag);
+        array_push($siteTags,  '');
         
         $LSheader = $this->tagCommand( self::CACHE_TAG ,  $siteTags);
         $this->liteSpeedHeader($LSheader);
