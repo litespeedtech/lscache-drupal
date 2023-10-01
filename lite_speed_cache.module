@@ -30,3 +30,16 @@ function lite_speed_cache_help($route_name, RouteMatchInterface $route_match) {
             return $output;
     }
 }
+
+function lite_speed_cache_user_login($account) {
+    $lscInstance = new \Drupal\lite_speed_cache\Cache\LSCacheCore();
+    $lscInstance->checkVary("user:loggedin");
+    $lscInstance->checkPrivateCookie();
+
+}
+
+function lite_speed_cache_user_logout($account) {
+    $lscInstance = new \Drupal\lite_speed_cache\Cache\LSCacheCore();
+    $lscInstance->checkVary("");
+}
+
