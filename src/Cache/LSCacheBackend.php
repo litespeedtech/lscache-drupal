@@ -43,6 +43,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       //$tags[] = $cid;
       $ftags = $this->filterTags($tags);
       $this->cachePublic($ftags);
+      $this->logDebug($config);
     }
   
     /**
@@ -63,7 +64,9 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       }
       $ftags = $this->filterTags($tags);
       $this->cachePublic($ftags);
+      $this->logDebug($config);
     }
+  
   
     protected function filterTags($tags){
         $finalTags = [];
@@ -79,11 +82,22 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
     }
 
 
+    protected function logDebug($config=false) {
+      if(!$config){
+        $config = \Drupal::config('lite_speed_cache.settings');
+      }
+      $debug = $config->get('lite_speed_cache.debug');
+      if($debug=='1' or $debug == 'On') {
+        error_log($this->getLogBuffer());
+      }
+    }   
+
     /**
      * {@inheritdoc}
      */
     public function delete($cid) {
       $this->purgePublic($cid);
+      $this->logDebug();
     }
   
     /**
@@ -96,6 +110,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
         $tags[] = $cid;
       }
       $this->purgePublic($tags);
+      $this->logDebug();
     }
   
     /**
@@ -103,7 +118,8 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function deleteAll() {
         $this->purgeAllPublic();
-    }
+        $this->logDebug();
+      }
   
     /**
      * {@inheritdoc}
@@ -124,6 +140,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function invalidateTags(array $tags) {
         $this->purgePublic($tags);
+        $this->logDebug($config);
     }
   
     /**
@@ -131,6 +148,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function invalidateAll() {
         $this->purgeAllPublic();
+        $this->logDebug($config);
     }
   
     /**
@@ -144,6 +162,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function removeBin() {
         $this->purgeAllPublic();
+        $this->logDebug($config);
     }
 
     

@@ -2,7 +2,7 @@ lite_speed_cache.settings:
   type: config_object
   label: 'LiteSpeed Cache settings'
   mapping:
-    lite_speed_cache_form:
+    lite_speed_cache:
       type: mapping
       mapping:
         esi_on:
@@ -19,7 +19,7 @@ lite_speed_cache.settings:
           label: 'Cache is On or Off'
         debug:
           type: text
-          label: 'Weather or not to send debug headers!'
+          label: 'Weather or not to log debug headers in log files of web server !'
 block.settings.lite_speed_cache_block:
   type: block_settings
   label: 'LSCache block'

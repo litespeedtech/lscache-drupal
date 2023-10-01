@@ -75,7 +75,7 @@ class LSCacheForm extends ConfigFormBase
             '#title' => $this->t('Cache Status'),
             '#options' => $options,
             '#default_value' => $config->get('lite_speed_cache.cache_status'),
-            '#description' => $this->t('Disable or enable LiteSpeed Cache completely!'),
+            '#description' => $this->t('Disable or enable LiteSpeed Cache!'),
         );
 
         $options = ['Off','On'];
@@ -85,7 +85,7 @@ class LSCacheForm extends ConfigFormBase
             '#title' => $this->t('Debug'),
             '#options' => $options,
             '#default_value' => $config->get('lite_speed_cache.debug'),
-            '#description' => $this->t('Weather to send or not the debug headers!'),
+            '#description' => $this->t('Weather or not to log debug headers in Log files of web server!'),
         );
 
         // max_age field.
