@@ -35,17 +35,12 @@ function lite_speed_cache_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_user_login().
  */
 function lite_speed_cache_user_login($account) {
-    $lscInstance = new \Drupal\lite_speed_cache\Cache\LSCacheCore();
-    $lscInstance->checkVary("user:loggedin");
-    $lscInstance->checkPrivateCookie();
-
+    Drupal\lite_speed_cache\Cache\LSCacheHelper::setLoginVary();
 }
 
 /**
  * Implements hook_user_logout().
  */
 function lite_speed_cache_user_logout($account) {
-    $lscInstance = new \Drupal\lite_speed_cache\Cache\LSCacheCore();
-    $lscInstance->checkVary("");
+    Drupal\lite_speed_cache\Cache\LSCacheHelper::setLogoutVary();
 }
-

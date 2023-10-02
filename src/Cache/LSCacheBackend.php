@@ -140,7 +140,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function invalidateTags(array $tags) {
         $this->purgePublic($tags);
-        $this->logDebug($config);
+        $this->logDebug();
     }
   
     /**
@@ -148,7 +148,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function invalidateAll() {
         $this->purgeAllPublic();
-        $this->logDebug($config);
+        $this->logDebug();
     }
   
     /**
@@ -162,7 +162,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function removeBin() {
         $this->purgeAllPublic();
-        $this->logDebug($config);
+        $this->logDebug();
     }
 
     
