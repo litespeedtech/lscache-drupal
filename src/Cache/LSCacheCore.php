@@ -92,7 +92,7 @@ class LSCacheCore extends LSCacheBase
      *
      * @since   1.0.0
      */
-    protected function tagCommand($start, Array $tagArray){
+    public function tagCommand($start, Array $tagArray){
         $cmd = $start;
         
         foreach ($tagArray as $tag) {
@@ -108,12 +108,10 @@ class LSCacheCore extends LSCacheBase
      *
      * @since   0.1
      */
-    public function cachePrivate($publicTags, $privateTags = "", $esi=false)
+    public function cachePrivate($privateTags = "", $esi=false)
     {
         if ( !isset($privateTags) || ($privateTags == "") ) {
-            if ( !isset($publicTags) || ($publicTags == "")) {
-                return;
-            }
+            return;
         }
 
         $LSheader = self::PRIVATE_CACHE_CONTROL . $this->private_cache_timeout;
@@ -123,11 +121,6 @@ class LSCacheCore extends LSCacheBase
         $this->liteSpeedHeader($LSheader);
 
         $siteTags = Array();
-        $this->tagsForSite($siteTags, $publicTags, "public:");
-        if($publicTags!=""){
-            array_push($siteTags, "public:" . $this->site_only_tag);
-        }
-        
         $this->tagsForSite($siteTags, $privateTags);
         array_push($siteTags,  '');
         

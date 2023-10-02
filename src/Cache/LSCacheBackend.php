@@ -14,6 +14,9 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 
 class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, CacheTagsInvalidatorInterface {
+  const PURGE_HEAD_NAME = 'X-LiteSpeed-Purge';
+  static $publicPurgeTags = [];
+  static $publicPurgeAll = false;
 
     /**
      * {@inheritdoc}
@@ -46,6 +49,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       $this->logDebug($config);
     }
   
+
     /**
      * {@inheritdoc}
      */
@@ -66,8 +70,31 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       $this->cachePublic($ftags);
       $this->logDebug($config);
     }
-  
-  
+
+    /**
+     * send purge header to response object
+     */
+    public function purgeAction(){
+      if(self::$publicPurgeAll){
+        $tag = 'public, ' . $this->site_only_tag;
+        $this->purgePublic([$this->site_only_tag]);
+        $this->logDebug();
+        return $tag;
+      } else if (!empty(self::$publicPurgeTags)) {
+        $tag = $this->tagCommand('', self::$publicPurgeTags);
+        $this->purgePublic(self::$publicPurgeTags);
+        $this->logDebug();
+        self::$publicPurgeTags=[];
+        return $tag;
+      } else {
+        return false;
+      }
+    }
+ 
+    
+    /**
+     * remove general configuration tags, for those change, use purge all cache
+     */
     protected function filterTags($tags){
         $finalTags = [];
         foreach ($tags as $val) {
@@ -82,6 +109,9 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
     }
 
 
+    /**
+     * if enabled debug, write cache header to web server Log file.
+     */
     protected function logDebug($config=false) {
       if(!$config){
         $config = \Drupal::config('lite_speed_cache.settings');
@@ -96,7 +126,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * {@inheritdoc}
      */
     public function delete($cid) {
-      $this->purgePublic($cid);
+      self::$publicPurgeTags[]=$cid;
       $this->logDebug();
     }
   
@@ -117,9 +147,8 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * {@inheritdoc}
      */
     public function deleteAll() {
-        $this->purgeAllPublic();
-        $this->logDebug();
-      }
+      self::$publicPurgeAll = true;
+    }
   
     /**
      * {@inheritdoc}
@@ -132,23 +161,22 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * {@inheritdoc}
      */
     public function invalidateMultiple(array $cids) {
-        $this->deleteMultiple($cids);
+      $this->deleteMultiple($cids);
     }
   
     /**
      * {@inheritdoc}
      */
     public function invalidateTags(array $tags) {
-        $this->purgePublic($tags);
-        $this->logDebug();
+      $this->tagsForSite(self::$publicPurgeTags, $tags);
     }
   
     /**
      * {@inheritdoc}
      */
     public function invalidateAll() {
-        $this->purgeAllPublic();
-        $this->logDebug();
+      self::$publicPurgeAll = true;
+
     }
   
     /**
@@ -161,8 +189,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * {@inheritdoc}
      */
     public function removeBin() {
-        $this->purgeAllPublic();
-        $this->logDebug();
+      self::$publicPurgeAll = true;
     }
 
     

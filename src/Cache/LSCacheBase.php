@@ -180,7 +180,7 @@ class LSCacheBase
      *
      * @since   0.1
      */
-    public function cachePrivate($publicTags, $privateTags = "", $esi = false)
+    public function cachePrivate($privateTags = "", $esi = false)
     {
         if ( !isset($privateTags) || ($privateTags == "") ) {
             if ( !isset($publicTags) || ($publicTags == "")) {
@@ -195,7 +195,6 @@ class LSCacheBase
         $this->liteSpeedHeader($LSheader);
 
         $siteTags = Array();
-        $this->tagsForSite($siteTags, $publicTags, "public:");
         if($privateTags!=""){
             $this->tagsForSite($siteTags, $privateTags);
         }
@@ -215,7 +214,7 @@ class LSCacheBase
      */
     protected function liteSpeedHeader($LSheader)
     {
-        $this->logbuffer .= $LSheader . "\t";
+        $this->logbuffer .= $LSheader . "   ";
         header($LSheader);
     }
 

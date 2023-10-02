@@ -1,1 +1,7 @@
 services:
+
+  http_response_headers:
+    class: '\Drupal\lite_speed_cache\EventSubscriber\LSCacheSubscriber'
+    tags:
+      - { name: 'event_subscriber' }
+

@@ -127,7 +127,6 @@ class LSCacheForm extends ConfigFormBase
      * Clears All caches.
      */
     public function submitAllCache(array &$form, FormStateInterface $form_state) {
-        LSCacheForm::$purgeALL = 1;
         $lscInstance = new LSCacheBase();
         $lscInstance->purgeAllPublic();
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear all cache!'));
@@ -137,7 +136,6 @@ class LSCacheForm extends ConfigFormBase
      * Clears this caches.
      */
     public function submitThisCache(array &$form, FormStateInterface $form_state) {
-        LSCacheForm::$purgeThisSite = 1;
         $lscInstance = new LSCacheCore();
         $lscInstance->purgeAllPublic();
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
