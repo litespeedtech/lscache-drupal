@@ -29,7 +29,7 @@ If you use Composer to manage dependencies, require the module in your project `
     }
   ],
   "require": {
-    "litespeedtech/lscache-drupal": "lscache-drupal-1.4"
+    "litespeedtech/lscache-drupal": "dev-lscache-drupal-1.4"
   },
 ```
 
@@ -50,21 +50,6 @@ http://example.com/drupal/admin/modules
 * Check the checkbox next to LiteSpeed Cache.
 * Click Install.
 * Turn on LiteSpeed Cache in Module Settings.
-
-
-Enable LiteSpeedCache
--------------
-Add following directives to DRUPAL_FOLDER/web/.htaccess
-```
-<IfModule LiteSpeed>
-  CacheLookup on
-</IfModule>
-```
-
-Add following directives to DRUPAL_FOLDER/web/sites/default/settings.php
-```
-$settings['cache']['bins']['page'] = 'cache.backend.lscache';
-```
 
 
 Configurations

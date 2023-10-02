@@ -2,7 +2,7 @@
 namespace Drupal\lite_speed_cache\EventSubscriber;
 
 use Drupal\lite_speed_cache\Cache\LSCacheBackend;
-use Symfony\Component\HttpKernel\Event\ResponseEvents;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
