@@ -81,8 +81,12 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
         $this->logDebug();
         return $tag;
       } else if (!empty(self::$publicPurgeTags)) {
-        $tag = $this->tagCommand('', self::$publicPurgeTags);
-        $this->purgePublic(self::$publicPurgeTags);
+        $tags = $this->filterTags(self::$publicPurgeTags);
+        if(empty($tags)){
+          return false;
+        }
+        $tag = $this->tagCommand('', $tags);
+        $this->purgePublic($tags);
         $this->logDebug();
         self::$publicPurgeTags=[];
         return $tag;
@@ -98,7 +102,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
     protected function filterTags($tags){
         $finalTags = [];
         foreach ($tags as $val) {
-            if ((strpos($val, 'config:') !== False) or (strpos($val, 'user:') !== False) or (strpos($val, 'taxonomy_term') !== False) or ($val == "http_response") or ($val == "rendered")) {
+            if ((strpos($val, 'config:') !== False) or (strpos($val, 'user:') !== False) or (strpos($val, 'taxonomy_term') !== False) or (strpos($val, '_view') !== False) or (strpos($val, '_list') !== False) or ($val == "http_response") or ($val == "rendered")) {
                 continue;
             }
             else{
