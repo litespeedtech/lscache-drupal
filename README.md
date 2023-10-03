@@ -17,7 +17,7 @@ Download
 -------------
 Download LiteSpeed Cache Module to your local computer from:
 
-    https://github.com/litespeedtech/lscache-drupal/archive/master.zip
+    https://github.com/litespeedtech/lscache-drupal/archive/lscache-drupal-1.4.zip
 
 If you use Composer to manage dependencies, require the module in your project `composer.json`:
 
@@ -29,17 +29,8 @@ If you use Composer to manage dependencies, require the module in your project `
     }
   ],
   "require": {
-    "litespeedtech/lscache-drupal": "master"
+    "litespeedtech/lscache-drupal": "dev-lscache-drupal-1.4"
   },
-```
-
-Enable LiteSpeedCache using rewrite rules
--------------
-
-```
-<IfModule LiteSpeed>
-  CacheLookup on
-</IfModule>
 ```
 
 Install Plugin

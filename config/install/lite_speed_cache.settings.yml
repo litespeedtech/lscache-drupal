@@ -1,6 +1,6 @@
 lite_speed_cache:
-  esi_on: 'On'
+  esi_on: '0'
   max_age: '28800'
   max_age_private: '3600'
-  cache_status: 'On'
-  debug: 'Off'
+  cache_status: '1'
+  debug: '0'

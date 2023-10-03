@@ -30,3 +30,17 @@ function lite_speed_cache_help($route_name, RouteMatchInterface $route_match) {
             return $output;
     }
 }
+
+/**
+ * Implements hook_user_login().
+ */
+function lite_speed_cache_user_login($account) {
+    Drupal\lite_speed_cache\Cache\LSCacheHelper::setLoginVary();
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function lite_speed_cache_user_logout($account) {
+    Drupal\lite_speed_cache\Cache\LSCacheHelper::setLogoutVary();
+}
