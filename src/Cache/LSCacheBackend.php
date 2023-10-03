@@ -85,7 +85,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
         if(empty($tags)){
           return false;
         }
-        $tag = $this->tagCommand('', $tags);
+        $tag =  'public, ' . $this->tagCommand('', $tags);
         $this->purgePublic($tags);
         $this->logDebug();
         self::$publicPurgeTags=[];
