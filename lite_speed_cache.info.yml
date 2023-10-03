@@ -3,4 +3,4 @@ type: module
 description: 'Caches pages for any user, handling dynamic content correctly.'
 package: Core
 configure: lite_speed_cache.form
-core_version_requirement: ^9 || ^10 || ^11
+core_version_requirement: ^8 || ^9 || ^10 || ^11
