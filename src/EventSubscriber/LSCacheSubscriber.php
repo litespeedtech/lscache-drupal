@@ -12,9 +12,16 @@ class LSCacheSubscriber implements EventSubscriberInterface {
    * Sets extra HTTP headers.
    */
   public function onRespond(ResponseEvent $event) {
-    if (!$event->isMainRequest()) {
-      return;
+    if($event instanceof ResponseEvent){
+      if (!$event->isMainRequest()) {
+        return;
+      }
+    } else {
+      if (!$event->isMasterRequest()) {
+        return;
+      }
     }
+    
     $response = $event->getResponse();
     $lscInstance = new LSCacheBackend();
 
