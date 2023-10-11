@@ -5,3 +5,9 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+
+  lsc_commands_purgeall:
+    class: \Drupal\lite_speed_cache\Commands\PurgeAllCommand
+    tags:
+      - { name: drush.command }
+    arguments: ['@entity_type.manager', '@logger.factory']
