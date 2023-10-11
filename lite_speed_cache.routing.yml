@@ -5,3 +5,13 @@ lite_speed_cache.form:
     _title: 'LSCache Settings'
   requirements:
     _permission: 'administer site configuration'
+
+lite_speed_cache.purgeall:
+  path: '/lscpurgeall'
+  defaults:
+    _controller: '\Drupal\lite_speed_cache\Controller\LSCacheController::purgeAll'
+    _title: 'LiteSpeedCache: Purge All'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: 'TRUE'

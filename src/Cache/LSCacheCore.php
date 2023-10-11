@@ -137,7 +137,7 @@ class LSCacheCore extends LSCacheBase
     {
         if (self::$instance == null)
         {
-            self::$instance = new CacheCore();
+            self::$instance = new LSCacheCore();
         }
  
         return self::$instance;

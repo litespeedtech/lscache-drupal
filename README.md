@@ -80,3 +80,13 @@ If turned on, LiteSpeed Cache will emit extra headers for testing while developi
 **Public Cache TTL**
 
 Amount of time LiteSpeed web server will save pages in the public cache.
+
+
+CLI commands
+-------------
+
+CLI commands are only allowed to execute from the website host server.
+
+**Purge All Cache**
+
+curl -I "http://example.com/lscpurgeall"
