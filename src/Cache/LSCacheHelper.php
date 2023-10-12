@@ -70,5 +70,20 @@ class LSCacheHelper
         $lscInstance = new LSCacheCore();
         $lscInstance->checkVary("");
     }
+
+    public static function getSiteUrls($rootUrl){
+        $database = \Drupal::database();
+        $query = $database->select('path_alias', 'base_table');
+        $query->condition('base_table.status', 1);
+        $query->fields('base_table', ['alias','langcode']);
+        $result = $query->execute()->fetchAllKeyed();
+
+        $siteUrls = [];
+        foreach($result as $alias => $langcode){
+            $siteUrls[]= $rootUrl . $alias;
+            $siteUrls[]= $rootUrl .'/' . $langcode. $alias;
+        }
+        return $siteUrls;
+    }
   
 }
