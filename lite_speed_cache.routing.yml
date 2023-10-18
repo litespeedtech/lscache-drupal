@@ -15,3 +15,14 @@ lite_speed_cache.purgeall:
     _permission: 'access content'
   options:
     no_cache: 'TRUE'
+
+
+lite_speed_cache.warmup:
+  path: '/lscwarmup'
+  defaults:
+    _controller: '\Drupal\lite_speed_cache\Controller\LSCacheController::warmup'
+    _title: 'LiteSpeedCache: Warmup'
+  requirements:
+    _permission: 'access content'    
+  options:
+    no_cache: 'TRUE'

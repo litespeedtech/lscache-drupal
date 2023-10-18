@@ -23,12 +23,14 @@ class LSCacheCommand extends DrushCommands {
     }
 
     $url = $rootURL .'/lscpurgeall';
-    $result = $this->file_get_contents_curl($url);
+    $result = LSCacheHelper::curl($url);
 
-    if($result){
-      return $this->output()->writeln('Purge All Cache Successfull!');
+    if(!is_numeric($result)){
+      $this->output()->writeln($result);
+    } else if($result=='200'){
+      $this->output()->writeln('Purge All Cache Successfull!');
     } else {
-      return $this->output()->writeln('Purge All Cache Failed!');
+      $this->output()->writeln('Purge All Cache Failed!');
     }
 
   }
@@ -55,26 +57,6 @@ class LSCacheCommand extends DrushCommands {
 
   }
 
-  private function file_get_contents_curl($url) {
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_HEADER, 1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    curl_setopt($ch, CURLOPT_FAILONERROR, 0);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);       
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0');
-
-    $data = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
-    curl_close($ch);
-
-    if($httpcode!=200) {return false;}
-
-    return true;
-  }
 
   private function crawlUrls($urls) {
     set_time_limit(0);
@@ -109,6 +91,5 @@ class LSCacheCommand extends DrushCommands {
             $this->output->writeln($current . '/'. $total . ' Warm up:    ' . $url . "    failed!");
         }
     }
-}  
-
+  }  
 }

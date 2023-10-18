@@ -89,13 +89,15 @@ CLI commands are only allowed to execute from the website host server.
 
 **Purge All Cache**
 
-curl -I "http://example.com/lscpurgeall"
+curl "http://example.com/lscpurgeall"
 
 or in /drupal_root/vendor/bin folder execute drush command:
 
 ./drush lscache:purgeall example.com
 
 **WarmUp whole website**
+
+curl "http://example.com/lscwarmup"
 
 or in /drupal_root/vendor/bin folder execute drush command:
 

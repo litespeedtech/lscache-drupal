@@ -78,7 +78,7 @@ class LSCacheHelper
         $query->fields('base_table', ['alias','langcode']);
         $result = $query->execute()->fetchAllKeyed();
 
-        $siteUrls = [];
+        $siteUrls = [$rootUrl];
         foreach($result as $alias => $langcode){
             $siteUrls[]= $rootUrl . $alias;
             $siteUrls[]= $rootUrl .'/' . $langcode. $alias;
@@ -86,4 +86,25 @@ class LSCacheHelper
         return $siteUrls;
     }
   
+
+    public static function curl($url) {
+        $ch = curl_init();
+    
+        curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_FAILONERROR, 0);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);       
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0');
+    
+        $data = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
+        curl_close($ch);
+    
+        if(!empty($data)) return $data;
+        return $httpcode;
+    
+      }    
 }
