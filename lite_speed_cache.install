@@ -5,13 +5,15 @@
  * Installation functions for LiteSpeed Cache module.
  */
 
+ use Drupal\lite_speed_cache\Cache\LSCacheHelper;
+
 /**
  * Implements hook_install().
  */
 function lite_speed_cache_install() {
 
-    \Drupal\lite_speed_cache\Cache\LSCacheHelper::initHtaccess();
-    \Drupal\lite_speed_cache\Cache\LSCacheHelper::initConfigs();
+    LSCacheHelper::initHtaccess();
+    LSCacheHelper::initConfigs();
 
 }
 
@@ -20,5 +22,9 @@ function lite_speed_cache_install() {
  * Implements hook_uninstall().
  */
 function lite_speed_cache_uninstall() {
-    \Drupal\lite_speed_cache\Cache\LSCacheHelper::restoreHtaccess();
+
+    $rootURL =  \Drupal::request()->getSchemeAndHttpHost();
+    $purgeURL = $rootURL . '/lscpurgeall';
+    LSCacheHelper::curl($purgeURL);
+    LSCacheHelper::restoreHtaccess();
 }
