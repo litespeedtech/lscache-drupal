@@ -1,6 +1,7 @@
 lite_speed_cache:
-  esi_on: '0'
   max_age: '28800'
-  max_age_private: '3600'
+  private_max_age: '3600'
   cache_status: '1'
+  private_cache_status: '0'
   debug: '0'
+  esi_blocks: 'id=toolbar-bar'

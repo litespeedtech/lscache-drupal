@@ -96,6 +96,37 @@ class LSCacheForm extends ConfigFormBase
             '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver public cache (Seconds).'),
         );
 
+
+        $form['cache_login'] = [
+            '#type' => 'details',
+            '#title' => t('Cache for Logged In!'),
+            '#open' => TRUE,
+        ];
+
+        $options = ['Off','On'];
+
+        $form['cache_login']['private_cache_status'] = array(
+            '#type' => 'select',
+            '#title' => $this->t('Private Cache Status'),
+            '#options' => $options,
+            '#default_value' => $config->get('lite_speed_cache.private_cache_status'),
+            '#description' => $this->t('Disable or enable LiteSpeed Private Cache!'),
+        );
+
+        $form['cache_login']['private_max_age'] = array(
+            '#type' => 'textfield',
+            '#title' => $this->t('Private Cache TTL'),
+            '#default_value' => $config->get('lite_speed_cache.private_max_age'),
+            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver private cache (Seconds).'),
+        );
+
+        $form['cache_login']['esi_blocks'] = array(
+            '#type' => 'textfield',
+            '#title' => $this->t('ESI Blocks Setting'),
+            '#default_value' => $config->get('lite_speed_cache.esi_blocks'),
+            '#description' => $this->t('ESI Block IDs in Page Html Source.'),
+        );
+
         return $form;
     }
 
@@ -112,13 +143,12 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
         $config = $this->config('lite_speed_cache.settings');
-        $cacheStatus = $form_state->getValue('cache_status');
-        //$oldCacheStatus = $config->get('lite_speed_cache.cache_status');
-        //$config->set('lite_speed_cache.esi_on', $form_state->getValue('esi_on'));
-        //$config->set('lite_speed_cache.max_age_private', $form_state->getValue('max_age_private'));
         $config->set('lite_speed_cache.max_age', $form_state->getValue('max_age'));
-        $config->set('lite_speed_cache.cache_status', $cacheStatus);
+        $config->set('lite_speed_cache.cache_status',$form_state->getValue('cache_status'));
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
+        $config->set('lite_speed_cache.private_cache_status', $form_state->getValue('private_cache_status'));
+        $config->set('lite_speed_cache.private_max_age', $form_state->getValue('private_max_age'));
+        $config->set('lite_speed_cache.esi_blocks', $form_state->getValue('esi_blocks'));
         $config->save();
         return parent::submitForm($form, $form_state);
     }
