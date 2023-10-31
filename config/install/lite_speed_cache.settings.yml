@@ -4,4 +4,4 @@ lite_speed_cache:
   cache_status: '1'
   private_cache_status: '0'
   debug: '0'
-  esi_blocks: 'id=toolbar-bar'
+  esi_blocks: 'id=toolbar-administration'

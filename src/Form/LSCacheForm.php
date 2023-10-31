@@ -99,7 +99,7 @@ class LSCacheForm extends ConfigFormBase
 
         $form['cache_login'] = [
             '#type' => 'details',
-            '#title' => t('Cache for Logged In!'),
+            '#title' => t('Private Cache for Logged In Users!'),
             '#open' => TRUE,
         ];
 
