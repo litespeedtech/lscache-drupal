@@ -99,7 +99,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
     /**
      * remove general configuration tags, for those change, use purge all cache
      */
-    protected function filterTags($tags){
+    public function filterTags($tags){
         $finalTags = [];
         foreach ($tags as $val) {
             if ((strpos($val, 'config:') !== False) or (strpos($val, 'user:') !== False) or (strpos($val, 'taxonomy_term') !== False) or (strpos($val, '_view') !== False) or (strpos($val, '_list') !== False) or ($val == "http_response") or ($val == "rendered")) {

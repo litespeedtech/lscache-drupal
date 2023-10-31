@@ -47,6 +47,14 @@ class LSCacheController extends ControllerBase {
   }
 
 
+  public function showesi() {
+    return [
+      'content' => [
+        '#markup' => 'LiteSpeed ESI Cache.',
+      ],
+    ] ;
+  }
+
   private function crawlUrls($urls, $cli=true) {
     set_time_limit(0);
     ob_implicit_flush(TRUE);

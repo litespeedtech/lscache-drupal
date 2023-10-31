@@ -26,3 +26,15 @@ lite_speed_cache.warmup:
     _permission: 'access content'    
   options:
     no_cache: 'TRUE'
+
+
+lite_speed_cache.showesi:
+  path: '/lscesi'
+  defaults:
+    _controller: '\Drupal\lite_speed_cache\Controller\LSCacheController::showesi'
+    _title: 'LiteSpeedCache: ESI Block'
+  requirements:
+    _permission: 'access content'    
+  options:
+    no_cache: 'TRUE'
+
