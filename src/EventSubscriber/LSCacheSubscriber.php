@@ -50,6 +50,9 @@ class LSCacheSubscriber implements EventSubscriberInterface {
 
   protected function handleESIblocks($response){
 
+    if($response->getStatusCode()!=200){
+      return;
+    }
     //not logged in
     if(empty(\Drupal::currentUser()) || !\Drupal::currentUser()->isAuthenticated()) {
       return;
@@ -83,7 +86,7 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     $blockElement = false;
     foreach($blocks as $block){
       if(str_starts_with(trim($block),'id=')){
-        $blockID = substr($block, 3);
+        $blockID = substr(trim($block), 3);
         $blockElement = $dom->getElementById($blockID);
         if(empty($blockElement)){ 
           continue;
@@ -107,6 +110,7 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     array_unshift($tags, '');
     $ftags = $lscInstance->tagCommand('public, ',$tags);
     $response->headers->set('X-LiteSpeed-Tag', $ftags);
+    $lscInstance->checkVary("user:loggedin");
   }
 
 
@@ -155,7 +159,8 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     if (!empty($route)) {
       $is_admin_route = \Drupal::service('router.admin_context')->isAdminRoute($route);
       $has_node_operation_option = $route->getOption('_node_operation_route');
-      $is_admin = ($is_admin_route || $has_node_operation_option);
+      $is_user_route = str_starts_with($route->getPath(), '/user/') ;
+      $is_admin = ($is_admin_route || $has_node_operation_option || $is_user_route);
     }
     else {
       $current_path = \Drupal::service('path.current')->getPath();
@@ -165,7 +170,7 @@ class LSCacheSubscriber implements EventSubscriberInterface {
       elseif(preg_match('/taxonomy\/term\/(\d+)\/edit/', $current_path, $matches)) {
         $is_admin = TRUE;
       }
-      elseif(preg_match('/user\/(\d+)\/edit/', $current_path, $matches)) {
+      elseif( str_starts_with($current_path, '/user/')) {
         $is_admin = TRUE;
       }
     }

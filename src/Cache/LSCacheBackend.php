@@ -36,6 +36,12 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * {@inheritdoc}
      */
     public function set($cid, $data, $expire = Cache::PERMANENT, array $tags = []) {
+
+      $current_path = \Drupal::service('path.current')->getPath();
+      if(str_starts_with($current_path,'/user/')){
+        return;
+      }
+            
       $config = \Drupal::config('lite_speed_cache.settings');
       $cacheStatus = $config->get('lite_speed_cache.cache_status');
       if($cacheStatus=='0' or $cacheStatus == 'Off') {
