@@ -13,6 +13,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\lite_speed_cache\Cache\LSCacheCore;
 use Drupal\lite_speed_cache\Cache\LSCacheBase;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Url;
 
 class LSCacheForm extends ConfigFormBase
 {
@@ -46,7 +48,7 @@ class LSCacheForm extends ConfigFormBase
 
         $form['clear_cache'] = [
             '#type' => 'details',
-            '#title' => t('Clear cache!'),
+            '#title' => t('LSCache of this site!'),
             '#open' => TRUE,
         ];
 
@@ -56,10 +58,10 @@ class LSCacheForm extends ConfigFormBase
             '#submit' => ['::submitThisCache'],
         ];
 
-        $form['clear_cache']['clear_all'] = [
+        $form['clear_cache']['warmup_this'] = [
             '#type' => 'submit',
-            '#value' => t('Clear all'),
-            '#submit' => ['::submitAllCache'],
+            '#value' => t('Warmup this site'),
+            '#submit' => ['::submitWarmup'],
         ];
 
         $form['cache_settings'] = [
@@ -154,21 +156,21 @@ class LSCacheForm extends ConfigFormBase
     }
 
     /**
-     * Clears All caches.
-     */
-    public function submitAllCache(array &$form, FormStateInterface $form_state) {
-        $lscInstance = new LSCacheBase();
-        $lscInstance->purgeAllPublic();
-        \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear all cache!'));
-    }
-
-    /**
-     * Clears this caches.
+     * Clears this site caches.
      */
     public function submitThisCache(array &$form, FormStateInterface $form_state) {
         $lscInstance = new LSCacheCore();
         $lscInstance->purgeAllPublic();
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));
+    }
+
+    /**
+     * Warmup this site caches.
+     */
+    public function submitWarmup(array &$form, FormStateInterface $form_state) {
+        $path = Url::fromRoute('lite_speed_cache.warmup')->toString();
+        $response = new RedirectResponse($path,301);
+        $response->send();
     }
 
 }

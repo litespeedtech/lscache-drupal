@@ -142,6 +142,8 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     $lscInstance = new LSCacheBackend();
     $ftags = $lscInstance->tagCommand('private,',  ['',$blockID]);
     $response->headers->set('X-LiteSpeed-Tag', $ftags);
+    $lscInstance->checkPrivateCookie();
+
 }
 
   

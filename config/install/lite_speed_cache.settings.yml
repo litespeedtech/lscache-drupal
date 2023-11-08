@@ -1,5 +1,5 @@
 lite_speed_cache:
-  max_age: '28800'
+  max_age: '64800'
   private_max_age: '3600'
   cache_status: '1'
   private_cache_status: '0'
