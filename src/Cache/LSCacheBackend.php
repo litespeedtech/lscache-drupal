@@ -47,7 +47,13 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       if($cacheStatus=='0' or $cacheStatus == 'Off') {
         return;
       }
-      $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
+
+      if($expire>0){
+        $this->public_cache_timeout = $expire;
+      } else {
+        $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
+      }
+      
       $tags = array_unique($tags);
       //$tags[] = $cid;
       $ftags = $this->filterTags($tags);
