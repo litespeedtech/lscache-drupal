@@ -123,10 +123,11 @@ class LSCacheForm extends ConfigFormBase
         );
 
         $form['cache_login']['esi_blocks'] = array(
-            '#type' => 'textfield',
+            '#type' => 'textarea',
             '#title' => $this->t('ESI Blocks Setting'),
             '#default_value' => $config->get('lite_speed_cache.esi_blocks'),
-            '#description' => $this->t('ESI Block IDs in Page Html Source.'),
+            '#description' => $this->t('ESI Block IDs in Page HTML Source. One block setting per line'),
+            '#rows' => 4,
         );
 
         return $form;
