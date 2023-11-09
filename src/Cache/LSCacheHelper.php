@@ -10,7 +10,8 @@ class LSCacheHelper
 
         $directives = '### LITESPEED_CACHE_START - Do not remove this line' . PHP_EOL;
         $directives .= '<IfModule LiteSpeed>' . PHP_EOL;
-        $directives .= 'CacheLookup on' . PHP_EOL;
+        $directives .= '    CacheLookup on' . PHP_EOL;
+        $directives .= '    php_value output_buffering Off' . PHP_EOL;
         $directives .= '</IfModule>' . PHP_EOL;
         $directives .= '### LITESPEED_CACHE_END';
 
