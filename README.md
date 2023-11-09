@@ -1,7 +1,17 @@
 LiteSpeed Cache for Drupal 8+
 ============================
 
-Drupal 8+ is significantly changed from Drupal 7. They have converted from procedural programming to object-oriented programming. Drupal 8+ has a built-in page cache (for static content) and a dynamic page cache for logged in users. The latter basically works as a reverse proxy written in PHP. The built-in proxy is good if you have no other options, however, with the LiteSpeed Cache plugin you will see a great improvement in performance for your Drupal 9+ site.
+* Fastest Page cache for Drupal CMS.
+
+* Page Cache for both Logged In and Logged Out users. 
+
+* Auto Purge relate Page Caches when content changes.
+
+* Drush and non-Drush cli commands for Cache warmup/clear.
+
+* Web GUI warmup will also warmup "Private Cache for Logged In Users" if enabled.
+
+* Support latest release of Drupal 8+, 9+ and 10+ .
 
 See https://www.litespeedtech.com/products/cache-plugins for more information.
 
@@ -9,8 +19,7 @@ See https://www.litespeedtech.com/products/cache-plugins for more information.
 
 Prerequisites
 -------------
-This version of LiteSpeed Cache requires Drupal 9 or later and LiteSpeed Web Server (LSWS) 5.2.3 or later.
-
+This version of LiteSpeed Cache requires Drupal 8 or later and LiteSpeed Web Server (LSWS) 5.2.3 or later.
 
 
 Download
@@ -47,8 +56,11 @@ http://example.com/drupal/admin/modules
 ![LiteSpeed Cache Drupal](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:enable_lscache_drupal.png)
 
 * Use the search box to search for a module.
+
 * Check the checkbox next to LiteSpeed Cache.
+
 * Click Install.
+
 * Turn on LiteSpeed Cache in Module Settings.
 
 
@@ -59,27 +71,37 @@ This step is optional. Once the plugin is activated, your cache is already up an
 
 Go to
 
-    http://example.com/admin/config/development/lscache
+    http://example.com/admin/config/development/lscache!
+    
+    [LiteSpeed Cache Drupal Plugin Configurations](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:configure-lscache.png?cache=)
 
-![LiteSpeed Cache Drupal Plugin Configurations](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:configure-lscache.png?cache=)
+**Warmup this site**
 
-**Clear Cache**
+Warmup the LSCache of current Drupal site. It will also warmup "Private Cache for Logged In Users" if enabled.
 
-* Clear this site
+**Clear this site**
 
-This option only clears the current Drupal installation. This helps if you have multiple Drupal installations on the same virtual host.
-
-* Clear all
-
-This button clears the entire LiteSpeed cache for this virtual host. This includes any other web apps using LSCache (WordPress, XenForo, etc.) on this vhost.
-
-**Debug**
-
-If turned on, LiteSpeed Cache will emit extra headers for testing while developing or deploying.
+Clears the LSCache of current Drupal site. It will not clear LSCache of other sites if multiple CMS sites run on the same virtual host.
 
 **Public Cache TTL**
 
 Amount of time LiteSpeed web server will save pages in the public cache.
+
+**Private Cache TTL**
+
+Amount of time LiteSpeed web server will save "ESI Block contents" in the Private cache. OpenLiteSpeed does not support Private Cache.
+
+**ESI Blocks Setting**
+
+The ESI block list of general logged in pages. ESI Block should be the DIV ID inside HTML source. for example:
+
+a DIV block: <div id="bar-administrator">...<div>
+
+ESI Block Setting: id=bar-administrator
+
+**Debug**
+
+If turned on, LiteSpeed Cache will print lscache header to LSWS web server Log files.
 
 
 CLI commands
@@ -89,16 +111,26 @@ CLI commands are only allowed to execute from the website host server.
 
 **Purge All Cache**
 
-curl "http://example.com/lscpurgeall"
+```
+curl -N "http://example.com/lscpurgeall"
+```
 
 or in /drupal_root/vendor/bin folder execute drush command:
 
+```
 ./drush lscache:purgeall example.com
+```
 
 **WarmUp whole website**
 
-curl "http://example.com/lscwarmup"
+```
+curl -N "http://example.com/lscwarmup"
+```
 
 or in /drupal_root/vendor/bin folder execute drush command:
 
+```
 ./drush lscache:warmup example.com
+```
+
+CLI warm up command can only warmup public page caches, if you wants to warmup "Private Cache for Logged In users", you need to use the Web Gui warmup in LSCache admin panel.
