@@ -5,7 +5,7 @@ use Drupal\lite_speed_cache\Cache\LSCacheBackend;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Drupal\Core\Cache\CacheableResponse;
+use Drupal\Core\Cache\CacheableResponseInterface;
 
 class LSCacheSubscriber implements EventSubscriberInterface {
 
@@ -49,6 +49,14 @@ class LSCacheSubscriber implements EventSubscriberInterface {
 
 
   protected function handleESIblocks($response){
+    if(!($response instanceof CacheableResponseInterface)){
+      return;
+    }
+    $cache = $response->getCacheableMetadata();
+    if( $cache->getCacheMaxAge() < 0 ){
+      return;
+    }
+
 
     if($response->getStatusCode()!=200){
       return;
@@ -103,7 +111,12 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     $response->setContent($newContent);
     $lscInstance = new LSCacheBackend();
 
-    $maxAge = $config->get('lite_speed_cache.max_age');
+    if($cache->getCacheMaxAge()>0){
+      $maxAge = $cache->getCacheMaxAge();
+    } else {
+      $maxAge = $config->get('lite_speed_cache.max_age');
+    }
+    
     $response->headers->set('X-LiteSpeed-Cache-Control', 'esi=on, public, max-age='. $maxAge);
     $tags = $response->getCacheableMetadata()->getCacheTags();
     $tags = $lscInstance->filterTags($tags);
