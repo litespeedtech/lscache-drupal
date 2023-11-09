@@ -38,6 +38,12 @@ class LSCacheController extends ControllerBase {
         $serverIP = $_SERVER['SERVER_ADDR'];
         
         if(\Drupal::currentUser() && \Drupal::currentUser()->isAuthenticated()) {
+            set_time_limit(0);
+            ob_implicit_flush(TRUE);
+            if (ob_get_contents()) {
+                ob_end_clean();
+            }
+        
             echo 'LSCache Warmup Start...<br><br>' . PHP_EOL;
             echo 'Warmup Public Caches...<br><br>' . PHP_EOL;
             $this->crawlUrls($siteUrls,false);
@@ -82,12 +88,6 @@ class LSCacheController extends ControllerBase {
   }
 
   private function crawlUrls($urls, $cli=false, $cookie='') {
-    set_time_limit(0);
-    ob_implicit_flush(TRUE);
-    if (ob_get_contents()) {
-        ob_end_clean();
-    }
-    
     $acceptCode = array(200, 201);
     $total = count($urls);
     $current = 0;

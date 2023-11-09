@@ -80,6 +80,14 @@ class LSCacheForm extends ConfigFormBase
             '#description' => $this->t('Disable or enable LiteSpeed Cache!'),
         );
 
+        // max_age field.
+        $form['cache_settings']['max_age'] = array(
+            '#type' => 'textfield',
+            '#title' => $this->t('Public Cache TTL'),
+            '#default_value' => $config->get('lite_speed_cache.max_age'),
+            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver public cache (Seconds).'),
+        );
+
         $options = ['Off','On'];
 
         $form['cache_settings']['debug'] = array(
@@ -89,15 +97,6 @@ class LSCacheForm extends ConfigFormBase
             '#default_value' => $config->get('lite_speed_cache.debug'),
             '#description' => $this->t('Weather or not to log debug headers in Log files of web server!'),
         );
-
-        // max_age field.
-        $form['cache_settings']['max_age'] = array(
-            '#type' => 'textfield',
-            '#title' => $this->t('Public Cache TTL'),
-            '#default_value' => $config->get('lite_speed_cache.max_age'),
-            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver public cache (Seconds).'),
-        );
-
 
         $form['cache_login'] = [
             '#type' => 'details',
