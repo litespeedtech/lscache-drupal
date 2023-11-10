@@ -93,9 +93,11 @@ Amount of time LiteSpeed web server will save "ESI Block contents" in the Privat
 
 **ESI Blocks Setting**
 
-The ESI block list of general logged in pages. ESI Block should be the DIV ID inside HTML source. for example:
+The ESI block list of general logged in pages. ESI Block should be the DIV ID inside HTML source. for example, a DIV block: 
 
-a DIV block: <div id="bar-administrator">...<div>
+```
+<div id="bar-administrator">...<div>
+```
 
 ESI Block Setting: id=bar-administrator
 
@@ -115,7 +117,7 @@ CLI commands are only allowed to execute from the website host server.
 curl -N "http://example.com/lscpurgeall"
 ```
 
-or in /drupal_root/vendor/bin folder execute drush command:
+or in /drupal_root/vendor/bin folder, execute drush command:
 
 ```
 ./drush lscache:purgeall example.com
@@ -127,7 +129,7 @@ or in /drupal_root/vendor/bin folder execute drush command:
 curl -N "http://example.com/lscwarmup"
 ```
 
-or in /drupal_root/vendor/bin folder execute drush command:
+or in /drupal_root/vendor/bin folder, execute drush command:
 
 ```
 ./drush lscache:warmup example.com
