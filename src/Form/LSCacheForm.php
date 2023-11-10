@@ -48,7 +48,7 @@ class LSCacheForm extends ConfigFormBase
 
         $form['clear_cache'] = [
             '#type' => 'details',
-            '#title' => t('LSCache of this site!'),
+            '#title' => t('LSCache of this site'),
             '#open' => TRUE,
         ];
 
@@ -66,7 +66,7 @@ class LSCacheForm extends ConfigFormBase
 
         $form['cache_settings'] = [
             '#type' => 'details',
-            '#title' => t('LSCache Settings!'),
+            '#title' => t('LSCache Settings'),
             '#open' => TRUE,
         ];
 
@@ -77,7 +77,7 @@ class LSCacheForm extends ConfigFormBase
             '#title' => $this->t('Cache Status'),
             '#options' => $options,
             '#default_value' => $config->get('lite_speed_cache.cache_status'),
-            '#description' => $this->t('Disable or enable LiteSpeed Cache!'),
+            '#description' => $this->t('Disable or enable LiteSpeed Cache.'),
         );
 
         // max_age field.
@@ -95,12 +95,12 @@ class LSCacheForm extends ConfigFormBase
             '#title' => $this->t('Debug'),
             '#options' => $options,
             '#default_value' => $config->get('lite_speed_cache.debug'),
-            '#description' => $this->t('Weather or not to log debug headers in Log files of web server!'),
+            '#description' => $this->t('Weather or not to log debug headers in Log files of web server.'),
         );
 
         $form['cache_login'] = [
             '#type' => 'details',
-            '#title' => t('Private Cache for Logged In Users!'),
+            '#title' => t('Private Cache for Logged In Users'),
             '#open' => TRUE,
         ];
 
@@ -111,7 +111,7 @@ class LSCacheForm extends ConfigFormBase
             '#title' => $this->t('Private Cache Status'),
             '#options' => $options,
             '#default_value' => $config->get('lite_speed_cache.private_cache_status'),
-            '#description' => $this->t('Disable or enable LiteSpeed Private Cache!'),
+            '#description' => $this->t('Disable or enable LiteSpeed Private Cache.'),
         );
 
         $form['cache_login']['private_max_age'] = array(
@@ -125,7 +125,7 @@ class LSCacheForm extends ConfigFormBase
             '#type' => 'textarea',
             '#title' => $this->t('ESI Blocks Setting'),
             '#default_value' => $config->get('lite_speed_cache.esi_blocks'),
-            '#description' => $this->t('ESI Block IDs in Page HTML Source. One block setting per line'),
+            '#description' => $this->t('ESI Block IDs in Page HTML Source. One block setting per line.'),
             '#rows' => 4,
         );
 
