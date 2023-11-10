@@ -60,7 +60,7 @@ class LSCacheForm extends ConfigFormBase
 
         $form['clear_cache']['warmup_this'] = [
             '#type' => 'submit',
-            '#value' => t('Warmup this site'),
+            '#value' => t('Warm up this site'),
             '#submit' => ['::submitWarmup'],
         ];
 
@@ -85,7 +85,7 @@ class LSCacheForm extends ConfigFormBase
             '#type' => 'textfield',
             '#title' => $this->t('Public Cache TTL'),
             '#default_value' => $config->get('lite_speed_cache.max_age'),
-            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver public cache (Seconds).'),
+            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Web Server public cache (Seconds).'),
         );
 
         $options = ['Off','On'];
@@ -118,7 +118,7 @@ class LSCacheForm extends ConfigFormBase
             '#type' => 'textfield',
             '#title' => $this->t('Private Cache TTL'),
             '#default_value' => $config->get('lite_speed_cache.private_max_age'),
-            '#description' => $this->t('Amount of time for which page should be cached by LiteSpeed Webserver private cache (Seconds).'),
+            '#description' => $this->t('Amount of time for which ESI blocks should be cached by LiteSpeed Web Server private cache (Seconds).'),
         );
 
         $form['cache_login']['esi_blocks'] = array(
