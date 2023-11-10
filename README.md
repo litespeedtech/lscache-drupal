@@ -75,23 +75,23 @@ Go to
     
   ![LiteSpeed Cache Drupal Plugin Configurations](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:configure-lscache.png?cache=)
 
-**Warmup this site**
+* Warmup this site
 
 Warmup the LSCache of current Drupal site. It will also warmup "Private Cache for Logged In Users" if enabled.
 
-**Clear this site**
+* Clear this site
 
 Clears the LSCache of current Drupal site. It will not clear LSCache of other sites if multiple CMS sites run on the same virtual host.
 
-**Public Cache TTL**
+* Public Cache TTL
 
 Amount of time LiteSpeed web server will save pages in the public cache.
 
-**Private Cache TTL**
+* Private Cache TTL
 
 Amount of time LiteSpeed web server will save "ESI Block contents" in the Private cache. OpenLiteSpeed does not support Private Cache.
 
-**ESI Blocks Setting**
+* ESI Blocks Setting
 
 The ESI block list of general logged in pages. ESI Block should be the DIV ID inside HTML source. for example, a DIV block: 
 
@@ -101,7 +101,7 @@ The ESI block list of general logged in pages. ESI Block should be the DIV ID in
 
 ESI Block Setting: id=bar-administrator
 
-**Debug**
+* Debug
 
 If turned on, LiteSpeed Cache will print lscache header to LSWS web server Log files.
 
