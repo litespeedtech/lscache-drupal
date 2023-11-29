@@ -12,7 +12,6 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\lite_speed_cache\Cache\LSCacheCore;
-use Drupal\lite_speed_cache\Cache\LSCacheBase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
 
@@ -55,7 +54,7 @@ class LSCacheForm extends ConfigFormBase
         $form['clear_cache']['clear_this'] = [
             '#type' => 'submit',
             '#value' => t('Clear this site'),
-            '#submit' => ['::submitThisCache'],
+            '#submit' => ['::submitClearCache'],
         ];
 
         $form['clear_cache']['warmup_this'] = [
@@ -129,6 +128,12 @@ class LSCacheForm extends ConfigFormBase
             '#rows' => 4,
         );
 
+        $lscInstance = new LSCacheCore();
+        $serverType = $lscInstance->getSeverType();
+        if(!$serverType){
+            \Drupal::messenger()->addMessage(t('Please use LiteSpeed Web Server to enable Page Cache !'));
+        }
+
         return $form;
     }
 
@@ -145,10 +150,18 @@ class LSCacheForm extends ConfigFormBase
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
         $config = $this->config('lite_speed_cache.settings');
+        $lscInstance = new LSCacheCore();
+        $serverType = $lscInstance->getSeverType();
+        $privateStatus = $form_state->getValue('private_cache_status');
+        if(($privateStatus) && ($serverType=='LITESPEED_SERVER_OLS')){
+            \Drupal::messenger()->addMessage(t('OpenLiteSpeed does not support ESI or Private Cache!'));
+        } else {
+            $config->set('lite_speed_cache.private_cache_status', $privateStatus);
+        }
+
         $config->set('lite_speed_cache.max_age', $form_state->getValue('max_age'));
         $config->set('lite_speed_cache.cache_status',$form_state->getValue('cache_status'));
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
-        $config->set('lite_speed_cache.private_cache_status', $form_state->getValue('private_cache_status'));
         $config->set('lite_speed_cache.private_max_age', $form_state->getValue('private_max_age'));
         $config->set('lite_speed_cache.esi_blocks', $form_state->getValue('esi_blocks'));
         $config->save();
@@ -158,7 +171,7 @@ class LSCacheForm extends ConfigFormBase
     /**
      * Clears this site caches.
      */
-    public function submitThisCache(array &$form, FormStateInterface $form_state) {
+    public function submitClearCache(array &$form, FormStateInterface $form_state) {
         $lscInstance = new LSCacheCore();
         $lscInstance->purgeAllPublic();
         \Drupal::messenger()->addMessage(t('Instructed LiteSpeed Web Server to clear this site cache!'));

@@ -273,4 +273,20 @@ class LSCacheBase
         return $retVal;
     }
     
+
+
+    public function getSeverType() {
+
+        if (isset($_SERVER['HTTP_X_LSCACHE']) && $_SERVER['HTTP_X_LSCACHE']) {
+            return 'LITESPEED_SERVER_ADC';
+        } elseif (isset($_SERVER['LSWS_EDITION']) && ( strpos($_SERVER['LSWS_EDITION'], 'Openlitespeed') !== FALSE )) {
+            return 'LITESPEED_SERVER_OLS';
+        } elseif (isset($_SERVER['SERVER_SOFTWARE']) && $_SERVER['SERVER_SOFTWARE'] == 'LiteSpeed') {
+            return 'LITESPEED_SERVER_ENT';
+        } else {
+            return false;
+        }
+
+    }
+
 }
