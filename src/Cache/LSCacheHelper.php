@@ -84,7 +84,19 @@ class LSCacheHelper
             $siteUrls[]= $rootUrl . $alias;
             $siteUrls[]= $rootUrl .'/' . $langcode. $alias;
         }
-        return $siteUrls;
+        
+        $query1 = $database->select('node');
+        $query1->fields('node', ['nid','langcode']);
+        $result = $query1->execute()->fetchAllKeyed();
+        $pm = \Drupal::service('path_alias.manager');
+        foreach($result as $nid => $langcode){
+            $path_alias = $pm->getAliasByPath('/node/'.$nid, $langcode);
+            $siteUrls[]= $rootUrl . $path_alias;
+            $siteUrls[]= $rootUrl .'/' . $langcode. $path_alias;
+        }
+        
+        $array1 = array_unique($siteUrls);
+        return $array1;
     }
   
 
