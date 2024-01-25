@@ -154,5 +154,44 @@ class LSCacheCore extends LSCacheBase
     public function getLoginCachable(){
         return $this->loginCachable;
     }
+
+
+    /**
+     *
+     *  purge public cache with specified tags for this site.
+     *
+     * @since   1.0.0
+     */
+    public function purgePublic($publicTags)
+    {
+        if ((!isset($publicTags)) || ($publicTags == "")) {
+            return;
+        }
+        
+        $siteTags = Array();
+        $this->tagsForSite($siteTags, $publicTags, $this->site_only_tag);
+        $LSheader = $this->tagCommand(self::CACHE_PURGE . 'public,' ,  $siteTags) ;
+        $this->liteSpeedHeader($LSheader);
+    }
+
+
+    /**
+     *
+     *  purge private cache with specified tags for this site.
+     *
+     * @since   1.0.0
+     */
+    public function purgePrivate($privateTags)
+    {
+        if ((!isset($privateTags)) || ($privateTags == "")) {
+            return;
+        }
+
+        $siteTags = Array();
+        $this->tagsForSite($siteTags, $privateTags, $this->site_only_tag);
+        $LSheader = $this->tagCommand( self::CACHE_PURGE . 'private,' ,  $siteTags);
+        $this->liteSpeedHeader($LSheader);
+    }    
+        
     
 }
