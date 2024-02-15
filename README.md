@@ -23,6 +23,12 @@ Download the LiteSpeed Cache Module to your local computer from:
     https://github.com/litespeedtech/lscache-drupal/archive/master.zip
 
 
+<details>
+  <summary>Click to show details</summary>
+
+![Plugin Installation picture](\/images\/DrupalPluginInstall.gif)
+</details>
+
 
 If you use Composer to manage dependencies, require the module in your project `composer.json`:
 
@@ -43,12 +49,6 @@ Install Plugin
 Once you have downloaded the plugin, you can install by visiting:
 
     http://example.com/admin/modules/install
-
-<details>
-  <summary>Click to show details</summary>
-
-![Plugin Installation picture](\/images\/DrupalPluginInstall.gif)
-</details>
 
 Using the browse button, you can upload the plugin you just downloaded and start the installation. Once installed, enable the plugin by going to:
 
