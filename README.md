@@ -54,8 +54,11 @@ Using the browse button, you can upload the plugin you just downloaded and start
 
 	http://example.com/drupal/admin/modules
 
+<details>
+  <summary>Click to show details</summary>
 
-![LiteSpeed Cache Drupal](https://www.litespeedtech.com/support/wiki/lib/exe/fetch.php/litespeed_wiki:cache:enable_lscache_drupal.png)
+![Plugin Installation picture](\/images\/DrupalPluginEnable.gif)
+</details>
 
 * Use the search box to search for a module.
 * Check the checkbox next to **LiteSpeed Cache**.
