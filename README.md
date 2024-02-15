@@ -46,8 +46,8 @@ Once you have downloaded the plugin, you can install by visiting:
 
 <details>
   <summary>Click to show details</summary>
-  ![Plugin Installation picture](\/images\/DrupalPluginInstall.gif)
 </details>
+  ![Plugin Installation picture](\/images\/DrupalPluginInstall.gif)
 
 Using the browse button, you can upload the plugin you just downloaded and start the installation. Once installed, enable the plugin by going to:
 
