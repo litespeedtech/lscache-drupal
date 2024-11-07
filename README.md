@@ -30,7 +30,7 @@ Download the LiteSpeed Cache Module to your local computer from:
 </details>
 
 
-If you use Composer to manage dependencies, require the module in your project `composer.json`:
+If you use Composer to manage dependencies or using Drupal 11+, using the following command to download:
 
 ```
 composer require litespeedtech/lscache-drupal
