@@ -6,7 +6,7 @@ LiteSpeed Cache for Drupal 8+
 * Auto Purge relate Page Caches when content changes.
 * Drush and non-Drush cli commands for Cache warmup/clear.
 * Web GUI warmup will also warm up **Private Cache for Logged In Users** if enabled.
-* Supports latest releases of Drupal 8+, 9+ and 10+ .
+* Supports latest releases of Drupal 8+, 9+, 10+ and 11+ .
 
 See [the LiteSpeed Website](https://www.litespeedtech.com/products/cache-plugins/drupal-acceleration) for more information about LiteSpeed Cache for Drupal.
 
@@ -33,15 +33,7 @@ Download the LiteSpeed Cache Module to your local computer from:
 If you use Composer to manage dependencies, require the module in your project `composer.json`:
 
 ```
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@github.com:litespeedtech/lscache-drupal.git"
-    }
-  ],
-  "require": {
-    "litespeedtech/lscache-drupal": "dev-master"
-  },
+composer require litespeedtech/lscache-drupal
 ```
 
 Install Plugin
