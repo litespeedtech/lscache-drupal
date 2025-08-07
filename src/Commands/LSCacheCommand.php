@@ -47,7 +47,18 @@ class LSCacheCommand extends DrushCommands {
       return $this->output()->writeln('need parameter @rootURL, eg: http://example.com');
     }
 
-    $siteUrls = LSCacheHelper::getSiteUrls($rootURL);
+    $siteUrls = [];
+
+    if(strtolower(substr($rootURL, -3))=='xml'){
+        $xml = simplexml_load_file($rootURL);
+
+        foreach ($xml->url as $url_item) {
+            $siteUrls[] = (string)$url_item->loc;  
+        }
+
+    } else {
+      $siteUrls = LSCacheHelper::getSiteUrls($rootURL);
+    }
 
     if(empty($siteUrls)){
       return $this->output()->writeln('No WarmUp Urls found');

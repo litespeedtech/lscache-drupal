@@ -106,4 +106,12 @@ or in `/drupal_root/vendor/bin` folder, execute `drush` command:
 ./drush lscache:warmup example.com
 ```
 
+**WarmUp XML sitemap**
+
+in `/drupal_root/vendor/bin` folder, execute `drush` command:
+
+```
+./drush lscache:warmup http://example.com/sitemap.xml
+```
+
 CLI `warmup` command can only warm up public page caches. If you want to warm up **Private Cache for Logged In Users**, you need to use the Web GUI warmup in the LSCache admin panel.
