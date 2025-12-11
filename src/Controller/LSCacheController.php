@@ -30,9 +30,28 @@ class LSCacheController extends ControllerBase {
     }
 
     public function warmup(Request $request) {
-        $rootURL =  $request->getSchemeAndHttpHost();
-        $siteUrls = LSCacheHelper::getSiteUrls($rootURL);
-        $lscUrl = $rootURL . '/admin/config/development/lscache';
+        $siteUrls = [];
+        $config = \Drupal::config('lite_speed_cache.settings'); 
+        $sitemap = trim($config->get('lite_speed_cache.sitemap'));
+        if($sitemap){
+            try {
+                $xml = simplexml_load_file($sitemap);
+                foreach ($xml->url as $url_item) {
+                    $siteUrls[] = (string)$url_item->loc;  
+                }            
+            } catch (\Throwable $th) {
+                echo 'Parse Sitemap Fail:' . $sitemap . '<br>' . PHP_EOL;
+            }
+            if (!$xml || empty($siteUrls)) {
+                echo 'Parse Sitemap Fail:' . $sitemap . '<br>' . PHP_EOL;
+            }            
+        }
+
+        if(empty($siteUrls)){
+            $rootURL =  $request->getSchemeAndHttpHost();
+            $siteUrls = LSCacheHelper::getSiteUrls($rootURL);
+            $lscUrl = $rootURL . '/admin/config/development/lscache';
+        }
 
         $visitorIP =  $_SERVER['REMOTE_ADDR'];
         $serverIP = $_SERVER['SERVER_ADDR'];
@@ -48,7 +67,6 @@ class LSCacheController extends ControllerBase {
             echo 'Warmup Public Caches...<br><br>' . PHP_EOL;
             $this->crawlUrls($siteUrls,false);
 
-            $config = \Drupal::config('lite_speed_cache.settings');
             $cacheStatus = $config->get('lite_speed_cache.private_cache_status');
             if($cacheStatus=='1') {
                 $sessionName='';

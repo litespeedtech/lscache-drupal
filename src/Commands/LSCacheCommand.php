@@ -50,12 +50,17 @@ class LSCacheCommand extends DrushCommands {
     $siteUrls = [];
 
     if(strtolower(substr($rootURL, -3))=='xml'){
-        $xml = simplexml_load_file($rootURL);
-
-        foreach ($xml->url as $url_item) {
-            $siteUrls[] = (string)$url_item->loc;  
-        }
-
+      try {
+          $xml = simplexml_load_file($sitemap);
+          foreach ($xml->url as $url_item) {
+              $siteUrls[] = (string)$url_item->loc;  
+          }            
+      } catch (\Throwable $th) {
+          $this->output->writeln('Parse Sitemap Fail!');
+      }
+      if (!$xml || empty($siteUrls)) {
+          $this->output->writeln('Parse Sitemap Fail!');
+      }      
     } else {
       $siteUrls = LSCacheHelper::getSiteUrls($rootURL);
     }

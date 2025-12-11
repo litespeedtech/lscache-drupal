@@ -97,6 +97,13 @@ class LSCacheForm extends ConfigFormBase
             '#description' => $this->t('Weather or not to log debug headers in Log files of web server.'),
         );
 
+        $form['cache_settings']['sitemap'] = array(
+            '#type' => 'textfield',
+            '#title' => $this->t('XML Sitemap URL'),
+            '#default_value' => $config->get('lite_speed_cache.sitemap'),
+            '#description' => $this->t('The URL of the xml format sitemap to be used for warmup, optional.'),
+        );
+
         $form['cache_login'] = [
             '#type' => 'details',
             '#title' => t('Private Cache for Logged In Users'),
@@ -162,6 +169,7 @@ class LSCacheForm extends ConfigFormBase
         $config->set('lite_speed_cache.max_age', $form_state->getValue('max_age'));
         $config->set('lite_speed_cache.cache_status',$form_state->getValue('cache_status'));
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
+        $config->set('lite_speed_cache.sitemap', $form_state->getValue('sitemap'));
         $config->set('lite_speed_cache.private_max_age', $form_state->getValue('private_max_age'));
         $config->set('lite_speed_cache.esi_blocks', $form_state->getValue('esi_blocks'));
         $config->save();
