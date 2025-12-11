@@ -48,6 +48,16 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
         return;
       }
 
+      $ncookies = $config->get('lite_speed_cache.nocache_cookies');
+      if($ncookies && $nc=explode(',',$ncookies)){
+        foreach(nc as $ncookie){
+          if($_COOKIE[$ncookie]){
+            this->checkVary("NoCache");
+            return;
+          }
+        }
+      }
+
       if($expire>0){
         $this->public_cache_timeout = $expire;
       } else {

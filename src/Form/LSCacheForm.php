@@ -104,6 +104,13 @@ class LSCacheForm extends ConfigFormBase
             '#description' => $this->t('The URL of the xml format sitemap to be used for warmup, optional.'),
         );
 
+        $form['cache_settings']['nocache_cookies'] = array(
+            '#type' => 'textfield',
+            '#title' => $this->t('No Cache Cookies'),
+            '#default_value' => $config->get('lite_speed_cache.nocache_cookies'),
+            '#description' => $this->t('Comma-separated list of cookies that web page will not cache with these cookies, optional.'),
+        );
+
         $form['cache_login'] = [
             '#type' => 'details',
             '#title' => t('Private Cache for Logged In Users'),
@@ -170,6 +177,7 @@ class LSCacheForm extends ConfigFormBase
         $config->set('lite_speed_cache.cache_status',$form_state->getValue('cache_status'));
         $config->set('lite_speed_cache.debug', $form_state->getValue('debug'));
         $config->set('lite_speed_cache.sitemap', $form_state->getValue('sitemap'));
+        $config->set('lite_speed_cache.nocache_cookies', $form_state->getValue('nocache_cookies'));
         $config->set('lite_speed_cache.private_max_age', $form_state->getValue('private_max_age'));
         $config->set('lite_speed_cache.esi_blocks', $form_state->getValue('esi_blocks'));
         $config->save();
