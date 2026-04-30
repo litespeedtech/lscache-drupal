@@ -18,6 +18,15 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
   static $publicPurgeTags = [];
   static $publicPurgeAll = false;
 
+  public $cacheStatus = 0;
+  public $ncookies = '';
+
+  public function __construct(){
+    $config = \Drupal::config('lite_speed_cache.settings');
+    $this->cacheStatus = $config->get('lite_speed_cache.cache_status');    
+    $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
+    $this->$ncookies = $config->get('lite_speed_cache.nocache_cookies');
+  }
     /**
      * {@inheritdoc}
      */
@@ -41,15 +50,12 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       if(str_starts_with($current_path,'/user/')){
         return;
       }
-            
-      $config = \Drupal::config('lite_speed_cache.settings');
-      $cacheStatus = $config->get('lite_speed_cache.cache_status');
-      if($cacheStatus=='0' or $cacheStatus == 'Off') {
+
+      if($this->cacheStatus=='0' or $this->cacheStatus == 'Off') {
         return;
       }
 
-      $ncookies = $config->get('lite_speed_cache.nocache_cookies');
-      if($ncookies && $nc=explode(',',$ncookies)){
+      if($this->ncookies && $nc=explode(',',$this->ncookies)){
         foreach(nc as $ncookie){
           if($_COOKIE[$ncookie]){
             this->checkVary("NoCache");
@@ -60,15 +66,38 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
 
       if($expire>0){
         $this->public_cache_timeout = $expire;
-      } else {
-        $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
       }
       
+      $isPrivate = false;
+      $cachemeta = $data->getCacheableMetadata();
+      $contexts = $cachemeta->getCacheContexts();
+      $isPrivate = in_array('user.roles:anonymous',$contexts);
+      if($isPrivate){
+        $this->private_cache_timeout = $expire;
+      }
+
+      $cacheMaxAge = $cachemeta->getCacheMaxAge();
+      if($cacheMaxAge>0){
+        if($isPrivate){
+          $this->private_cache_timeout = $cacheMaxAge;
+        } else {
+          $this->public_cache_timeout = $cacheMaxAge;
+        }
+      }
+    
       $tags = array_unique($tags);
       //$tags[] = $cid;
       $ftags = $this->filterTags($tags);
-      $this->cachePublic($ftags);
-      $this->logDebug($config);
+
+      if($ftags){
+        if($isPrivate){
+          $this->cachePrivate($tags);
+        } else {
+          $this->cachePublic($tags);
+        }
+      }
+      
+      $this->logDebug();
     }
   
 
@@ -76,11 +105,19 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * {@inheritdoc}
      */
     public function setMultiple(array $items = []) {
-      $cacheStatus = $config->get('lite_speed_cache.cache_status');
-      if($cacheStatus=='0' or $cacheStatus == 'Off') {
+      if($this->cacheStatus=='0' or $this->cacheStatus == 'Off') {
         return;
       }
-      $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
+
+      if($this->ncookies && $nc=explode(',',$this->ncookies)){
+        foreach(nc as $ncookie){
+          if($_COOKIE[$ncookie]){
+            this->checkVary("NoCache");
+            return;
+          }
+        }
+      }
+
       $tags = array();
       foreach ($items as $cid => $item) {
         //$tags[] = $cid;
@@ -90,7 +127,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       }
       $ftags = $this->filterTags($tags);
       $this->cachePublic($ftags);
-      $this->logDebug($config);
+      $this->logDebug();
     }
 
     /**

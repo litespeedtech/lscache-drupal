@@ -27,8 +27,9 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     $lscInstance = new LSCacheBackend();
 
     $purgeTag = $lscInstance->purgeAction();
-
     if ($purgeTag) {
+        $response->headers->set(LSCacheBackend::PURGE_HEAD_NAME, $purgeTag);
+        $purgeTag = 'private, ' . substr($purgeTag,8);
         $response->headers->set(LSCacheBackend::PURGE_HEAD_NAME, $purgeTag);
     }
 

@@ -14,7 +14,7 @@ lite_speed_cache.purgeall:
   requirements:
     _permission: 'access content'
   options:
-    no_cache: 'TRUE'
+    no_cache: TRUE
 
 
 lite_speed_cache.warmup:
@@ -25,7 +25,7 @@ lite_speed_cache.warmup:
   requirements:
     _permission: 'access content'    
   options:
-    no_cache: 'TRUE'
+    no_cache: TRUE
 
 
 lite_speed_cache.showesi:
@@ -36,5 +36,5 @@ lite_speed_cache.showesi:
   requirements:
     _permission: 'access content'    
   options:
-    no_cache: 'TRUE'
+    no_cache: TRUE
 
