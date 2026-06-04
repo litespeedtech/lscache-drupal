@@ -25,7 +25,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
     $config = \Drupal::config('lite_speed_cache.settings');
     $this->cacheStatus = $config->get('lite_speed_cache.cache_status');    
     $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
-    $this->$ncookies = $config->get('lite_speed_cache.nocache_cookies');
+    $this->ncookies = $config->get('lite_speed_cache.nocache_cookies');
   }
     /**
      * {@inheritdoc}
@@ -58,7 +58,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       if($this->ncookies && $nc=explode(',',$this->ncookies)){
         foreach(nc as $ncookie){
           if($_COOKIE[$ncookie]){
-            this->checkVary("NoCache");
+            $this->checkVary("NoCache");
             return;
           }
         }
@@ -112,7 +112,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       if($this->ncookies && $nc=explode(',',$this->ncookies)){
         foreach(nc as $ncookie){
           if($_COOKIE[$ncookie]){
-            this->checkVary("NoCache");
+            $this->checkVary("NoCache");
             return;
           }
         }
