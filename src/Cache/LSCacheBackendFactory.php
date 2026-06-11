@@ -11,7 +11,7 @@
  */
 namespace Drupal\lite_speed_cache\Cache;
 use Drupal\Core\Cache\CacheFactory;
-
+use Drupal\Core\Cache\NullBackend;
 
 class LSCacheBackendFactory extends CacheFactory {
 
@@ -22,16 +22,18 @@ class LSCacheBackendFactory extends CacheFactory {
      */
     public function get($bin) {
 
-      if($bin!=='page'){
-        return parent::get($bin);
+      if($bin=='page'){
+          if (!isset($this->bins[$bin])) {
+              $this->bins[$bin] = new LSCacheBackend();
+          }
+          return $this->bins[$bin];    
+      }
+
+      if($bin=='dynamic_page_cache'){
+          return new NullBackend($bin);
       }
       
-      if (isset($this->bins[$bin])) {
-          return $this->bins[$bin];
+      return parent::get($bin);
       }
-      
-      $this->bins[$bin] = new LSCacheBackend();
-      return $this->bins[$bin];
-    }
   
   }

@@ -73,7 +73,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       $isPrivate = false;
       $cachemeta = $data->getCacheableMetadata();
       $contexts = $cachemeta->getCacheContexts();
-      $isPrivate = in_array('user.roles:authenticated',$contexts);
+      $isPrivate = in_array('user.roles:anonymous',$contexts);
       if($isPrivate && ($expire>0)){
         $this->private_cache_timeout = $expire;
       }
