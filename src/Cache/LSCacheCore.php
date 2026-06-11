@@ -77,7 +77,7 @@ class LSCacheCore extends LSCacheBase
         $LSheader = self::PUBLIC_CACHE_CONTROL . $this->public_cache_timeout;
         if($esi){
             $LSheader .= ',esi=on';
-        }        
+        }
         $this->liteSpeedHeader($LSheader);
 
         $siteTags = Array();
@@ -172,7 +172,7 @@ class LSCacheCore extends LSCacheBase
         }
         
         $siteTags = Array();
-        $this->tagsForSite($siteTags, $publicTags, $this->site_only_tag);
+        $this->tagsForSite($siteTags, $publicTags);
         $LSheader = $this->tagCommand(self::CACHE_PURGE . 'public,' ,  $siteTags) ;
         $this->liteSpeedHeader($LSheader);
         return $LSheader;
@@ -192,7 +192,7 @@ class LSCacheCore extends LSCacheBase
         }
 
         $siteTags = Array();
-        $this->tagsForSite($siteTags, $privateTags, $this->site_only_tag);
+        $this->tagsForSite($siteTags, $privateTags);
         $LSheader = $this->tagCommand( self::CACHE_PURGE . 'private,' ,  $siteTags);
         $this->liteSpeedHeader($LSheader);
         return $LSheader;

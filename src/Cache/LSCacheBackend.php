@@ -14,7 +14,6 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 
 class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, CacheTagsInvalidatorInterface {
-  const PURGE_HEAD_NAME = 'X-LiteSpeed-Purge';
   static $publicPurgeTags = [];
   static $privatePurgeTags = [];
   static $publicPurgeAll = false;
@@ -24,9 +23,11 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
   public $ncookies = '';
 
   public function __construct(){
+    parent::__construct();
     $config = \Drupal::config('lite_speed_cache.settings');
     $this->cacheStatus = $config->get('lite_speed_cache.cache_status');    
     $this->public_cache_timeout = $config->get('lite_speed_cache.max_age');
+    $this->private_cache_timeout = $config->get('lite_speed_cache.private_max_age');
     $this->ncookies = $config->get('lite_speed_cache.nocache_cookies');
   }
     /**
@@ -47,7 +48,6 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * {@inheritdoc}
      */
     public function set($cid, $data, $expire = Cache::PERMANENT, array $tags = []) {
-
       $current_path = \Drupal::service('path.current')->getPath();
       if(str_starts_with($current_path,'/user/')){
         return;
@@ -73,8 +73,8 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       $isPrivate = false;
       $cachemeta = $data->getCacheableMetadata();
       $contexts = $cachemeta->getCacheContexts();
-      $isPrivate = in_array('user.permissions',$contexts);
-      if($isPrivate){
+      $isPrivate = in_array('user.roles:authenticated',$contexts);
+      if($isPrivate && ($expire>0)){
         $this->private_cache_timeout = $expire;
       }
 
@@ -86,16 +86,14 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
           $this->public_cache_timeout = $cacheMaxAge;
         }
       }
-    
       $tags = array_unique($tags);
-      //$tags[] = $cid;
       $ftags = $this->filterTags($tags);
 
       if($ftags){
         if($isPrivate){
-          $this->cachePrivate($tags);
+          $this->cachePrivate($ftags);
         } else {
-          $this->cachePublic($tags);
+          $this->cachePublic($ftags);
         }
       }
       
@@ -136,42 +134,47 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * send purge header to response object
      */
     public function purgeAction(){
-      $tag = '';
+      $actions = [];
       if(self::$publicPurgeAll){
-        $tag = $this->purgeAllPublic([$this->site_only_tag]);
+        $actions[] = parent::purgeAllPublic();
         $this->logDebug();
-        return $tag;
-      } else if(self::$privatePurgeAll){
-        $tag = $this->purgeAllPrivate();
+      }
+      
+      if(self::$privatePurgeAll){
+        $actions[] = parent::purgeAllPrivate();
         $this->logDebug();
-        return $tag;        
-      } else {
-        if (!empty(self::$publicPurgeTags)) {
+      }
+      
+      if (!self::$publicPurgeAll && !empty(self::$publicPurgeTags)) {
           $tags = $this->filterTags(self::$publicPurgeTags);
           if(!empty($tags)){
-            $tag =  $this->purgePublic($tags);
+            $actions[] =  $this->purgePublic($tags);
             $this->logDebug();
             self::$publicPurgeTags=[];
           }
-        }
-        if (!empty(self::$privatePurgeTags)) {
+      }
+
+      if (!self::$privatePurgeAll && !empty(self::$privatePurgeTags)) {
           $tags = $this->filterTags(self::$privatePurgeTags);
           if(!empty($tags)){
-            $tag1 .= $this->purgePrivate($tags);
-            $tag = empty($tag)? $tag1 : $tag . ';' . $tag1 ;
+            $actions[] = $this->purgePrivate($tags);
             $this->logDebug();
             self::$privatePurgeTags=[];
           }
-        }
-        return $tag;
       }
+      return $actions;
     }
 
-    public function onPurgeAllPublic() {
+    public function invalidatePrivate($tags) {
+      self::$privatePurgeTags[]=$tags;
+      $this->logDebug();
+    }
+  
+    public function purgeAllPublic() {
         self::$publicPurgeAll = true;
     }
 
-    public function onPurgeAllPrivate($event) {
+    public function purgeAllPrivate() {
         self::$privatePurgeAll = true;
     }
     
@@ -203,7 +206,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       if($debug=='1' or $debug == 'On') {
         error_log($this->getLogBuffer());
       }
-    }   
+    }
 
     /**
      * {@inheritdoc}
@@ -273,6 +276,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      */
     public function removeBin() {
       self::$publicPurgeAll = true;
+      self::$privatePurgeAll = true;
     }
 
     

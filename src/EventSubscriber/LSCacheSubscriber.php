@@ -26,11 +26,14 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     }
 
     $response = $event->getResponse();
-    $lscInstance = new LSCacheBackend();
 
-    $purgeTag = $lscInstance->purgeAction();
-    if ($purgeTag) {
-        $response->headers->set(LSCacheBackend::PURGE_HEAD_NAME, $purgeTag);
+    $lscInstance = new LSCacheBackend();
+    $actions = $lscInstance->purgeAction();
+    if (!empty($actions)) {
+      foreach($actions as $action){
+        list($key, $value) = explode(':', $action, 2); 
+        $response->headers->set($key, $value);
+      }
     }
 
     if($this->isESIrequest()){
@@ -46,18 +49,18 @@ class LSCacheSubscriber implements EventSubscriberInterface {
   public static function getSubscribedEvents() {
     $events[KernelEvents::RESPONSE][] = ['onRespond', -999];
     $events[LSCacheEvent::PURGE_ALL_PUBLIC][] = ['onPurgeAllPublic', 0];
-    $events[KernelEvents::PURGE_ALL_PRIVATE][] = ['onPurgeAllPrivate', 0];
+    $events[LSCacheEvent::PURGE_ALL_PRIVATE][] = ['onPurgeAllPrivate', 0];
     return $events;
   }
 
   public function onPurgeAllPublic($event) {
     $lscInstance = new LSCacheBackend();
-    $lscInstance->onPurgeAllPublic();
+    $lscInstance->purgeAllPublic();
   }
 
   public function onPurgeAllPrivate($event) {
     $lscInstance = new LSCacheBackend();
-    $lscInstance->onPurgeAllPrivate();
+    $lscInstance->purgeAllPrivate();
   }
 
   protected function handleESIblocks($response){
