@@ -103,6 +103,7 @@ class LSCacheBase
         $this->tagsForSite($siteTags, $publicTags);
         $LSheader = $this->tagCommand(self::CACHE_PURGE . 'public,' ,  $siteTags) ;
         $this->liteSpeedHeader($LSheader);
+        return $LSheader;
     }
 
     /**
@@ -121,6 +122,7 @@ class LSCacheBase
         $this->tagsForSite($siteTags, $privateTags);
         $LSheader = $this->tagCommand( self::CACHE_PURGE . 'private,' ,  $siteTags);
         $this->liteSpeedHeader($LSheader);
+        return $LSheader;
     }
 
     /**
@@ -133,6 +135,8 @@ class LSCacheBase
     {
         $LSheader = self::CACHE_PURGE . 'public,*';
         $this->liteSpeedHeader($LSheader);
+        return $LSheader;
+
     }
 
     /**
@@ -145,6 +149,7 @@ class LSCacheBase
     {
         $LSheader = self::CACHE_PURGE . 'private,*';
         $this->liteSpeedHeader($LSheader);
+        return $LSheader;
     }
 
     /**

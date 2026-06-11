@@ -16,7 +16,9 @@ use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, CacheTagsInvalidatorInterface {
   const PURGE_HEAD_NAME = 'X-LiteSpeed-Purge';
   static $publicPurgeTags = [];
+  static $privatePurgeTags = [];
   static $publicPurgeAll = false;
+  static $privatePurgeAll = false;
 
   public $cacheStatus = 0;
   public $ncookies = '';
@@ -71,7 +73,7 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
       $isPrivate = false;
       $cachemeta = $data->getCacheableMetadata();
       $contexts = $cachemeta->getCacheContexts();
-      $isPrivate = in_array('user.roles:anonymous',$contexts);
+      $isPrivate = in_array('user.permissions',$contexts);
       if($isPrivate){
         $this->private_cache_timeout = $expire;
       }
@@ -134,26 +136,44 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
      * send purge header to response object
      */
     public function purgeAction(){
+      $tag = '';
       if(self::$publicPurgeAll){
-        $tag = 'public, ' . $this->site_only_tag;
-        $this->purgePublic([$this->site_only_tag]);
+        $tag = $this->purgeAllPublic([$this->site_only_tag]);
         $this->logDebug();
         return $tag;
-      } else if (!empty(self::$publicPurgeTags)) {
-        $tags = $this->filterTags(self::$publicPurgeTags);
-        if(empty($tags)){
-          return false;
-        }
-        $tag =  'public, ' . $this->tagCommand('', $tags);
-        $this->purgePublic($tags);
+      } else if(self::$privatePurgeAll){
+        $tag = $this->purgeAllPrivate();
         $this->logDebug();
-        self::$publicPurgeTags=[];
-        return $tag;
+        return $tag;        
       } else {
-        return false;
+        if (!empty(self::$publicPurgeTags)) {
+          $tags = $this->filterTags(self::$publicPurgeTags);
+          if(!empty($tags)){
+            $tag =  $this->purgePublic($tags);
+            $this->logDebug();
+            self::$publicPurgeTags=[];
+          }
+        }
+        if (!empty(self::$privatePurgeTags)) {
+          $tags = $this->filterTags(self::$privatePurgeTags);
+          if(!empty($tags)){
+            $tag1 .= $this->purgePrivate($tags);
+            $tag = empty($tag)? $tag1 : $tag . ';' . $tag1 ;
+            $this->logDebug();
+            self::$privatePurgeTags=[];
+          }
+        }
+        return $tag;
       }
     }
- 
+
+    public function onPurgeAllPublic() {
+        self::$publicPurgeAll = true;
+    }
+
+    public function onPurgeAllPrivate($event) {
+        self::$privatePurgeAll = true;
+    }
     
     /**
      * remove general configuration tags, for those change, use purge all cache

@@ -2,6 +2,8 @@
 namespace Drupal\lite_speed_cache\EventSubscriber;
 
 use Drupal\lite_speed_cache\Cache\LSCacheBackend;
+use Drupal\lite_speed_cache\Event\LSCacheEvent;
+
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -29,8 +31,6 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     $purgeTag = $lscInstance->purgeAction();
     if ($purgeTag) {
         $response->headers->set(LSCacheBackend::PURGE_HEAD_NAME, $purgeTag);
-        $purgeTag = 'private, ' . substr($purgeTag,8);
-        $response->headers->set(LSCacheBackend::PURGE_HEAD_NAME, $purgeTag);
     }
 
     if($this->isESIrequest()){
@@ -45,9 +45,20 @@ class LSCacheSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     $events[KernelEvents::RESPONSE][] = ['onRespond', -999];
+    $events[LSCacheEvent::PURGE_ALL_PUBLIC][] = ['onPurgeAllPublic', 0];
+    $events[KernelEvents::PURGE_ALL_PRIVATE][] = ['onPurgeAllPrivate', 0];
     return $events;
   }
 
+  public function onPurgeAllPublic($event) {
+    $lscInstance = new LSCacheBackend();
+    $lscInstance->onPurgeAllPublic();
+  }
+
+  public function onPurgeAllPrivate($event) {
+    $lscInstance = new LSCacheBackend();
+    $lscInstance->onPurgeAllPrivate();
+  }
 
   protected function handleESIblocks($response){
     if(!($response instanceof CacheableResponseInterface)){
