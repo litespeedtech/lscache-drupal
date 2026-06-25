@@ -80,28 +80,30 @@ Go to
 Drupal Cache API support 
 -------------
 Now it support to use Drupal Cache API as the following example:
-	```
+
+```
 use Drupal\lite_speed_cache\Cache\LSCacheBackend;
 
 class LSCacheController extends ControllerBase {
-    public function litedemo() {       
-        $cacheInstance = new LSCacheBackend();
-        //$cacheInstance->purgeAllPublic();
-        $cacheInstance->invalidate('product:1');
-        //$cacheInstance->purgeAllPrivate();
-        //$cacheInstance->invalidatePrivate('product:1');
+  public function litedemo() {       
+    $cacheInstance = new LSCacheBackend();
+    //$cacheInstance->purgeAllPublic();
+    $cacheInstance->invalidate('product:1');
+    //$cacheInstance->purgeAllPrivate();
+    //$cacheInstance->invalidatePrivate('product:1');
         
-        $response = new CacheableResponse('Hello, LiteSpeed! ' . date("d/m/Y H:i:s"));       
-        $cacheMeta = $response->getCacheableMetadata();
-        $cacheMeta->setCacheMaxAge(3688);
-        $cacheMeta->setCacheTags(['product:1']); 
+    $response = new CacheableResponse('Hello, LiteSpeed! ' . date("d/m/Y H:i:s"));       
+    $cacheMeta = $response->getCacheableMetadata();
+    $cacheMeta->setCacheMaxAge(3688);
+    $cacheMeta->setCacheTags(['product:1']); 
 
-        //use this function to cache whole page output privately, not recommend, only use it for logged-in user API
-        //$cacheMeta->addCacheContexts(['user.roles:anonymous']);
-        return $response;
-    }
+    //use this function to cache whole page output privately, not recommend, only use it for web APIs for logged-in user 
+    //$cacheMeta->addCacheContexts(['user.roles:anonymous']);
+    return $response;
+  }
 }
-  ```
+
+```
 
 
 CLI commands
