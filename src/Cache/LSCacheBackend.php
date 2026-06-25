@@ -140,11 +140,6 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
         $this->logDebug();
       }
       
-      if(self::$privatePurgeAll){
-        $actions[] = parent::purgeAllPrivate();
-        $this->logDebug();
-      }
-      
       if (!self::$publicPurgeAll && !empty(self::$publicPurgeTags)) {
           $tags = $this->filterTags(self::$publicPurgeTags);
           if(!empty($tags)){
@@ -152,6 +147,11 @@ class LSCacheBackend extends LSCacheCore implements CacheBackendInterface, Cache
             $this->logDebug();
             self::$publicPurgeTags=[];
           }
+      }
+     
+      if(self::$privatePurgeAll){
+        $actions[] = parent::purgeAllPrivate();
+        $this->logDebug();
       }
 
       if (!self::$privatePurgeAll && !empty(self::$privatePurgeTags)) {

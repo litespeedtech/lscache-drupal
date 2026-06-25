@@ -32,6 +32,9 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     if (!empty($actions)) {
       foreach($actions as $action){
         list($key, $value) = explode(':', $action, 2); 
+        if(empty($value)) {continue;}
+        $currentValue = $response->headers->get($key); 
+        if(!empty($currentValue)) {$value = $currentValue . ';' . $value ;}
         $response->headers->set($key, $value);
       }
     }
@@ -71,7 +74,6 @@ class LSCacheSubscriber implements EventSubscriberInterface {
     if( $cache->getCacheMaxAge() < 0 ){
       return;
     }
-
 
     if($response->getStatusCode()!=200){
       return;
